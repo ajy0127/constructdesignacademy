@@ -52,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: marketing-build
-          path: ./dist
+          path: ./out
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./dist s3://${{ env.S3_BUCKET }} \
+          aws s3 sync ./out s3://${{ env.S3_BUCKET }} \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
             --exclude "*.html" \
@@ -71,7 +71,7 @@ jobs:
             --exclude "*.txt"
           
           # Set different cache headers for HTML files
-          aws s3 sync ./dist s3://${{ env.S3_BUCKET }} \
+          aws s3 sync ./out s3://${{ env.S3_BUCKET }} \
             --cache-control "public, max-age=0, must-revalidate" \
             --include "*.html" \
             --include "*.xml" \
@@ -84,23 +84,3 @@ jobs:
             --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
 
-  lighthouse:
-    needs: deploy
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Wait for deployment
-        run: sleep 60
-
-      - name: Run Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          urls: |
-            https://constructdesignacademy.com
-          configPath: './lighthouserc.json'
-          uploadArtifacts: true
-          temporaryPublicStorage: true

@@ -16,11 +16,11 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-emerald-forest/95 backdrop-blur-sm border-b border-ivory-mist/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-ivory-mist/95 backdrop-blur-sm border-b border-charcoal-black/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="font-headline text-xl text-ivory-mist font-bold">
+          <Link href="/" className="font-headline text-xl text-charcoal-black font-bold">
             <span className="font-bold">CON</span><span className="font-light">STRUCT</span>
           </Link>
 
@@ -34,7 +34,7 @@ export default function Navigation() {
                   'font-headline tracking-wide transition-colors duration-200',
                   pathname === item.href
                     ? 'text-imperial-yellow'
-                    : 'text-ivory-mist hover:text-imperial-yellow'
+                    : 'text-charcoal-black hover:text-imperial-yellow'
                 )}
               >
                 {item.label}
@@ -45,7 +45,7 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-ivory-mist hover:text-imperial-yellow transition-colors"
+            className="md:hidden text-charcoal-black hover:text-imperial-yellow transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
@@ -59,7 +59,7 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-ivory-mist/20">
+          <div className="md:hidden border-t border-charcoal-black/10">
             <div className="py-4 space-y-2">
               {navItems.map((item) => (
                 <Link
@@ -70,7 +70,7 @@ export default function Navigation() {
                     'block px-3 py-2 font-headline tracking-wide transition-colors duration-200',
                     pathname === item.href
                       ? 'text-imperial-yellow'
-                      : 'text-ivory-mist hover:text-imperial-yellow'
+                      : 'text-charcoal-black hover:text-imperial-yellow'
                   )}
                 >
                   {item.label}

@@ -86,7 +86,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Navigati
 ;
 const metadata = {
     title: 'CONSTRUCT - Built to be felt',
-    description: 'Design & Digital for the Discerning. Construct is the brand that builds brands.',
+    description: 'Design & Digital for the Discerning. Construct is the brand that builds brands for luxury.',
     keywords: [
         'luxury design',
         'digital transformation',

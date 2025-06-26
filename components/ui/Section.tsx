@@ -1,26 +1,30 @@
+import React from 'react';
 import clsx from 'clsx';
 
 interface SectionProps {
   children: React.ReactNode;
-  background?: 'light' | 'dark' | 'accent' | 'muted';
   padding?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   id?: string;
+  removePadding?: 'y' | 't' | 'b';
+  background?: 'light' | 'dark' | 'muted' | 'accent';
 }
 
 export default function Section({ 
   children, 
-  background = 'light',
   padding = 'lg',
   className,
-  id
+  id,
+  removePadding,
+  background
 }: SectionProps) {
-  const backgrounds = {
-    light: 'bg-ivory-mist text-charcoal-black',
-    dark: 'bg-charcoal-black text-ivory-mist',
-    accent: 'bg-emerald-forest text-ivory-mist',
-    muted: 'bg-royal-blue text-ivory-mist',
-  };
+
+  const backgroundClasses = {
+    light: 'bg-bg-base',
+    dark: 'bg-bg-primary',
+    muted: 'bg-bg-sub',
+    accent: 'bg-accent-gold'
+  } as const;
 
   const paddings = {
     sm: 'py-12',
@@ -29,13 +33,15 @@ export default function Section({
     xl: 'py-32',
   };
 
+  const paddingClass = removePadding === 'y' ? '' : removePadding === 't' ? 'pb-24' : removePadding === 'b' ? 'pt-24' : paddings[padding];
+
   return (
     <section 
       id={id}
       className={clsx(
+        background ? backgroundClasses[background] : '',
         'relative isolate',
-        backgrounds[background],
-        paddings[padding],
+        paddingClass,
         className
       )}
     >

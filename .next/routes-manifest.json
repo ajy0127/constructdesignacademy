@@ -20,10 +20,22 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/expertise",
+      "regex": "^/expertise(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/expertise(?:/)?$"
+    },
+    {
       "page": "/process",
       "regex": "^/process(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/process(?:/)?$"
+    },
+    {
+      "page": "/values",
+      "regex": "^/values(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/values(?:/)?$"
     },
     {
       "page": "/why-construct",

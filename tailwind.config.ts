@@ -8,17 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Construct brand palette - direct hex values for stability
-        'emerald-forest': '#014421',
-        'oxblood-red': '#4A0000',
-        'imperial-yellow': '#F6C700',
-        'royal-blue': '#002366',
-        'ivory-mist': '#F6F5F0',
-        'charcoal-black': '#121212',
+        'bg-primary': '#111111',
+        'bg-sub': '#3D3D3D',
+        'text-base': '#F4F1EB',
+        'accent-gold': '#F7C843',
+        'cta-brass': '#D9AE5F',
+        'error': '#BF3F3F',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
-        headline: ['"Söhne"', '"Neue Haas Grotesk"', 'sans-serif'],
+        serif: ['"Playfair Display"', '"Times New Roman"', 'serif'],
+        sans: ['"Inter"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        label: ['"Space Grotesk"', 'var(--font-sans)'],
       },
       fontSize: {
         '6xl': ['3.75rem', { lineHeight: '1', letterSpacing: '-0.025em' }],

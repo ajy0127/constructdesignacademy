@@ -4,7 +4,7 @@ import Link from 'next/link';
 interface ButtonProps {
   href?: string;
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'accent';
+  variant?: 'primary' | 'secondary' | 'accent' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
@@ -26,6 +26,7 @@ export default function Button({
     primary: 'bg-emerald-forest text-ivory-mist hover:bg-emerald-forest/90 focus-visible:outline-emerald-forest',
     secondary: 'border-2 border-emerald-forest text-emerald-forest hover:bg-emerald-forest hover:text-ivory-mist focus-visible:outline-emerald-forest',
     accent: 'border-2 border-imperial-yellow text-imperial-yellow hover:bg-imperial-yellow hover:text-emerald-forest focus-visible:outline-imperial-yellow',
+    outline: 'border-2 border-current text-current hover:bg-current hover:text-ivory-mist focus-visible:outline-current',
   };
 
   const sizes = {

@@ -79,13 +79,25 @@ export default function RevealCard({
                     {iconNode}
                   </div>
                 ) : (
-                  <Image
-                    src={iconSrc as string}
-                    alt={iconAlt ?? title}
-                    width={120}
-                    height={120}
-                    className="object-contain w-full h-full border-0 ring-0 outline-none shadow-none bg-transparent"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={iconSrc as string}
+                      alt={iconAlt ?? title}
+                      width={120}
+                      height={120}
+                      className="object-contain w-full h-full border-0 ring-0 outline-none shadow-none bg-transparent"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${iconSrc}`);
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                    {!iconSrc && (
+                      <div className="absolute inset-0 flex items-center justify-center text-red-500">
+                        Missing Icon
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}

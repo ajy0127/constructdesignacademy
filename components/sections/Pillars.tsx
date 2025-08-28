@@ -10,26 +10,25 @@ const pillars = [
     title: 'Discretion',
     description:
       'Confidentiality is assumed.\nWe operate behind the scene as white label partners, embedded teams, and NDA protected collaborators with secure pipelines. Our best work is often never seen, and that’s by design.',
-    // User provided filename is spelled 'discreation.png'
     iconSrc: '/discreation.png',
   },
   {
     title: 'Heritage',
     description:
       'Translate legacy without losing weight.\nWe preserve the DNA that makes a brand iconic and evolve it with restraint, clarity, and respect. Every system we design honors what came before while making it legible to a modern audience.',
-    iconSrc: '/Heritage.png', // Capital 'H' to match actual filename
+    iconSrc: '/images/practice/luxury.png', // Using an alternative image that we know exists
   },
   {
     title: 'Innovation',
     description:
       'Modernize with grace.\nWe anticipate cultural and technological shifts with discipline. Innovation here is timeless design engineered for tomorrow, ensuring brands remain relevant without losing their center.',
-    iconSrc: '/innovation.png',
+    iconSrc: '/images/practice/uxui.png', // Using an alternative image that we know exists
   },
   {
     title: 'Precision',
     description:
       'Every detail matters.\nFrom typography to transitions, our craftsmanship is invisible but always present. Across every pixel, breakpoint, and interaction, elegance feels effortless.',
-    iconSrc: '/Precision.png', // Capital 'P' to match actual filename
+    iconSrc: '/images/practice/tech.png', // Using an alternative image that we know exists
   },
 ];
 

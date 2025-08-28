@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Container from '../../components/ui/Container';
 import Section from '../../components/ui/Section';
+import RevealCard from '../../components/ui/RevealCard';
+import Link from 'next/link';
 
 const expertiseData = [
   {
@@ -66,80 +68,59 @@ const expertiseData = [
   }
 ];
 
-export default function Expertise() {
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+// Map expertise ids to PNG icons placed in /public
+const expertiseIcons: Record<string, string> = {
+  'ux-ui': '/uxuiexpertise.png',
+  design: '/Designexpertise.png',
+  development: '/Devexpertise.png',
+  branding: '/Branding.png',
+};
 
+export default function Expertise() {
   return (
-    <Section id="expertise" className="bg-bg-primary text-text-base min-h-screen flex items-center">
+    <Section id="expertise" className="bg-bg-primary py-24">
       <Container>
-        <div className="text-center mb-16">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="font-serif text-5xl md:text-6xl text-text-base mb-4"
-          >
-            Our Expertise
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-sans text-lg text-text-base/80"
-          >
-            The core services we offer.
-          </motion.p>
+        {/* Heading with divider lines to match landing page sections */}
+        <div className="flex items-center gap-6 mb-6">
+          <div className="flex-1 border-t border-text-base/20" />
+          <h2 className="heading-2">Our Expertise</h2>
+          <div className="flex-1 border-t border-text-base/20" />
         </div>
 
-        <div className="relative">
-          <div className="grid grid-cols-2 gap-8 md:gap-12">
-            {expertiseData.map((item, index) => (
+        <p className="text-center body mb-10">Core services we offer</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+          {expertiseData.map((item, index) => {
+            const description = [
+              item.subtitle,
+              '',
+              ...item.overlay.content,
+            ].join('\n');
+            return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative group cursor-pointer"
-                onMouseEnter={() => setHoveredCard(item.id)}
-                onMouseLeave={() => setHoveredCard(null)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
               >
-                <div className="bg-gradient-to-br from-accent-gold/20 to-accent-gold/10 p-8 md:p-12 rounded-2xl border border-accent-gold/20 hover:border-accent-gold/40 transition-all duration-300 backdrop-blur-sm h-full flex flex-col items-center text-center">
-                  <div className="text-4xl md:text-5xl mb-4 opacity-80">
-                    {item.icon}
-                  </div>
-                  <h3 className="font-serif text-xl md:text-2xl text-accent-gold mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="font-sans text-sm md:text-base text-text-base/70">
-                    {item.subtitle}
-                  </p>
-                </div>
+                <RevealCard
+                  title={item.title}
+                  description={description}
+                  iconSrc={expertiseIcons[item.id]}
+                  minHeightClass="min-h-[340px]"
+                  className="text-center"
+                />
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
-          {hoveredCard && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
-            >
-              <div className="bg-bg-primary/95 backdrop-blur-lg border border-accent-gold/30 rounded-2xl p-8 md:p-12 max-w-lg mx-auto shadow-2xl">
-                <h4 className="font-serif text-2xl md:text-3xl text-accent-gold mb-6">
-                  {expertiseData.find(item => item.id === hoveredCard)?.overlay.title}
-                </h4>
-                <div className="space-y-4">
-                  {expertiseData.find(item => item.id === hoveredCard)?.overlay.content.map((text, idx) => (
-                    <p key={idx} className="font-sans text-base text-text-base/80 leading-relaxed">
-                      {text}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
+        {/* Bottom CTA (button only) */}
+        <div className="text-center mt-16">
+          <Link href="/contact" className="cta-button">
+            Build with us →
+          </Link>
         </div>
       </Container>
     </Section>

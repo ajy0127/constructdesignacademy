@@ -3,3 +3,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Headline and body utilities */
+  .heading-display {
+    @apply font-serif text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base;
+  }
+  .heading-2 {
+    @apply font-serif text-3xl md:text-4xl leading-tight text-text-base;
+  }
+  .lead {
+    @apply font-serif text-xl md:text-2xl text-text-base/80 leading-relaxed;
+  }
+  .body {
+    @apply font-sans text-base md:text-[17px] text-text-base/80 leading-relaxed;
+  }
+  .body-sm {
+    @apply font-sans text-sm text-text-base/70 leading-relaxed;
+  }
+  .eyebrow {
+    @apply font-label uppercase tracking-widest text-xs text-text-base/70;
+  }
+  .cta-button {
+    @apply font-label uppercase tracking-widest text-sm border border-cta-brass text-cta-brass px-6 py-3 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-colors inline-block;
+  }
+}

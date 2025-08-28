@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -13,34 +13,42 @@ const navItems = [
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 64) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
-    <nav className={clsx(
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-      isScrolled ? 'bg-bg-primary/80 backdrop-blur-sm border-b border-text-base/10' : 'bg-transparent'
-    )}>
+    <header
+      id="site-header"
+      className="sticky top-0 z-[1000] bg-bg-primary/50 backdrop-blur transition-all duration-300"
+      style={{
+        height: '96px',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
-          {/* Logo */}
-          <Link href="#hero" className="font-serif text-2xl text-text-base font-bold">
-            Construct
+        <div className="flex items-center justify-between h-full">
+          {/* Left - Small wordmark fades in when scrolled */}
+          <Link href="/" className="flex items-center h-full space-x-3">
+            <div className="relative h-8 w-8 flex items-center justify-center">
+              <img 
+                src="/header-icon.png" 
+                alt="Construct Logo"
+                className="h-full w-auto absolute transition-opacity duration-300"
+                style={{
+                  opacity: 0,
+                  objectFit: 'contain',
+                  willChange: 'opacity'
+                }}
+                data-logo
+              />
+            </div>
+            <span 
+              data-header-wordmark
+              className="font-serif uppercase tracking-[0.2em] text-sm text-text-base transition-opacity duration-300 opacity-0"
+              style={{
+                willChange: 'opacity'
+              }}
+            >
+              CONSTRUCT
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -50,7 +58,7 @@ export default function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'font-label uppercase tracking-widest text-sm transition-colors duration-200',
+                  'eyebrow transition-colors duration-200',
                   'text-text-base/80 hover:text-text-base'
                 )}
               >
@@ -58,8 +66,8 @@ export default function Navigation() {
               </Link>
             ))}
             <Link
-              href="#contact"
-              className="font-label uppercase tracking-widest text-sm border border-cta-brass text-cta-brass px-4 py-2 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-colors"
+              href="/contact"
+              className="cta-button"
             >
               Contact
             </Link>
@@ -90,7 +98,7 @@ export default function Navigation() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={clsx(
-                    'block px-3 py-2 font-label uppercase tracking-widest text-sm transition-colors duration-200',
+                    'block px-3 py-2 eyebrow transition-colors duration-200',
                     'text-text-base/80 hover:text-text-base'
                   )}
                 >
@@ -98,9 +106,9 @@ export default function Navigation() {
                 </Link>
               ))}
               <Link
-                href="#contact"
+                href="/contact"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 font-label uppercase tracking-widest text-sm text-cta-brass"
+                className="cta-button inline-block mx-3 my-2"
               >
                 Contact
               </Link>
@@ -108,6 +116,6 @@ export default function Navigation() {
           </div>
         )}
       </div>
-    </nav>
+    </header>
   );
 }

@@ -10,6 +10,7 @@ const config: Config = {
       colors: {
         'bg-primary': '#111111',
         'bg-sub': '#3D3D3D',
+        'bg-offwhite': '#FAF7F2',
         'text-base': '#F4F1EB',
         'accent-gold': '#F7C843',
         'cta-brass': '#D9AE5F',

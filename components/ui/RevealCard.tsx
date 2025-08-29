@@ -87,11 +87,33 @@ export default function RevealCard({
                       height={120}
                       className="object-contain w-full h-full border-0 ring-0 outline-none shadow-none bg-transparent"
                       onError={(e) => {
-                        console.error(`Failed to load image: ${iconSrc}`);
+                        console.error(`[Image Error] Failed to load image: ${iconSrc}`, {
+                          error: e,
+                          currentSrc: (e.target as HTMLImageElement).currentSrc,
+                          availableImages: [
+                            '/Heritage.png',
+                            '/Precision.png',
+                            '/innovation.png',
+                            '/discreation.png'
+                          ].map(img => ({
+                            path: img,
+                            exists: document.querySelector(`img[src*="${img}"]`) !== null
+                          }))
+                        });
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                       }}
+                      onLoad={() => {
+                        console.log(`[Image Loaded] Successfully loaded: ${iconSrc}`, {
+                          currentSrc: (document.querySelector(`img[src*="${iconSrc}"]`) as HTMLImageElement)?.currentSrc
+                        });
+                      }}
                     />
+                    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs p-1 text-center">
+                        {iconSrc}
+                      </div>
+                    </div>
                     {!iconSrc && (
                       <div className="absolute inset-0 flex items-center justify-center text-red-500">
                         Missing Icon

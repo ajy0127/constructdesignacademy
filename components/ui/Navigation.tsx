@@ -18,7 +18,7 @@ export default function Navigation() {
   return (
     <header
       id="site-header"
-      className="sticky top-0 z-[1000] bg-bg-primary/50 backdrop-blur transition-all duration-300"
+      className="sticky top-0 z-50 bg-bg-primary/90 backdrop-blur transition-all duration-300"
       style={{
         height: '96px',
       }}
@@ -90,8 +90,8 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-text-base/10">
-            <div className="py-4 space-y-2">
+          <div className="md:hidden absolute left-0 right-0 bg-bg-primary/95 backdrop-blur-lg border-t border-text-base/10 shadow-lg">
+            <div className="py-4 px-6 space-y-3">
               {navItems.map((item) => (
                 <Link
                   key={item.href}

@@ -24,19 +24,19 @@ const pillars: Pillar[] = [
     title: 'Heritage',
     description:
       'Translate legacy without losing weight.\nWe preserve the DNA that makes a brand iconic and evolve it with restraint, clarity, and respect. Every system we design honors what came before while making it legible to a modern audience.',
-    iconSrc: '/images/practice/luxury.png',
+    iconSrc: '/Heritage.png',
   },
   {
     title: 'Innovation',
     description:
       'Modernize with grace.\nWe anticipate cultural and technological shifts with discipline. Innovation here is timeless design engineered for tomorrow, ensuring brands remain relevant without losing their center.',
-    iconSrc: '/images/practice/uxui.png',
+    iconSrc: '/innovation.png',
   },
   {
     title: 'Precision',
     description:
       'Every detail matters.\nFrom typography to transitions, our craftsmanship is invisible but always present. Across every pixel, breakpoint, and interaction, elegance feels effortless.',
-    iconSrc: '/images/practice/tech.png',
+    iconSrc: '/Precision.png',
   },
 ];
 

@@ -31,9 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build Next.js app
-        run: |
-          npm run build
-          npm run export
+        run: npm run build
         env:
           NODE_ENV: production
           NEXT_PUBLIC_BASE_URL: https://constructdesignacademy.com

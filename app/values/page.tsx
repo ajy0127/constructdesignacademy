@@ -24,7 +24,7 @@ const pillars: Pillar[] = [
     title: 'Heritage',
     description:
       'Translate legacy without losing weight.\nWe preserve the DNA that makes a brand iconic and evolve it with restraint, clarity, and respect. Every system we design honors what came before while making it legible to a modern audience.',
-    iconSrc: '/heritage.png',
+    iconSrc: '/Heritage.png',
   },
   {
     title: 'Innovation',
@@ -36,7 +36,7 @@ const pillars: Pillar[] = [
     title: 'Precision',
     description:
       'Every detail matters.\nFrom typography to transitions, our craftsmanship is invisible but always present. Across every pixel, breakpoint, and interaction, elegance feels effortless.',
-    iconSrc: '/precision.png',
+    iconSrc: '/Precision.png',
   },
 ];
 

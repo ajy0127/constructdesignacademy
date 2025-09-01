@@ -99,7 +99,7 @@ export default function Navigation() {
             
             {/* Side Drawer */}
             <div className={clsx(
-              "absolute right-0 top-0 h-full w-80 max-w-[85vw]",
+              "fixed right-0 top-0 h-screen w-80 max-w-[85vw]",
               "bg-cta-brass",
               "shadow-2xl transform transition-transform duration-300 ease-in-out",
               isOpen ? "translate-x-0" : "translate-x-full"

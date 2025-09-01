@@ -258,13 +258,13 @@ function RevealCard({ title, description, iconSrc, iconAlt, iconNode, className 
     }, this);
 }
 }}),
-"[project]/app/values/page.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
+"[project]/app/expertise/page.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname } = __turbopack_context__;
 {
 __turbopack_context__.s({
-    "default": (()=>Pillars)
+    "default": (()=>Expertise)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
@@ -279,76 +279,126 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-const pillars = [
+const expertiseData = [
     {
-        title: 'Discretion',
-        description: 'Confidentiality is assumed.\nWe operate behind the scene as white label partners, embedded teams, and NDA protected collaborators with secure pipelines. Our best work is often never seen, and that\'s by design.',
-        iconSrc: '/discreation.png'
+        id: 'design',
+        title: 'Design',
+        subtitle: 'Crafting brand identities.',
+        icon: '⚙️',
+        overlay: {
+            title: 'Design Excellence',
+            content: [
+                'We blend timeless aesthetics with cutting-edge technology to future-proof brands.',
+                'Continuous R&D keeps our clients at the forefront without chasing fads.',
+                'Innovation is measured not by novelty, but by enduring relevance.'
+            ]
+        }
     },
     {
-        title: 'Heritage',
-        description: 'Translate legacy without losing weight.\nWe preserve the DNA that makes a brand iconic and evolve it with restraint, clarity, and respect. Every system we design honors what came before while making it legible to a modern audience.',
-        iconSrc: '/Heritage.png'
+        id: 'branding',
+        title: 'Branding',
+        subtitle: 'Building memorable brands.',
+        icon: '🎨',
+        overlay: {
+            title: 'Brand Strategy',
+            content: [
+                'Creating cohesive brand experiences that resonate across all touchpoints.',
+                'Strategic positioning that differentiates your brand in competitive markets.',
+                'Visual identity systems that maintain consistency while allowing flexibility.'
+            ]
+        }
     },
     {
-        title: 'Innovation',
-        description: 'Modernize with grace.\nWe anticipate cultural and technological shifts with discipline. Innovation here is timeless design engineered for tomorrow, ensuring brands remain relevant without losing their center.',
-        iconSrc: '/innovation.png'
+        id: 'ux-ui',
+        title: 'UX/UI',
+        subtitle: 'Shaping intuitive experiences.',
+        icon: '📱',
+        overlay: {
+            title: 'User Experience Design',
+            content: [
+                'User Research & Persona Development',
+                'Wireframing & Prototyping',
+                'Interaction & Motion Design',
+                'Design Systems & Component Libraries'
+            ]
+        }
     },
     {
-        title: 'Precision',
-        description: 'Every detail matters.\nFrom typography to transitions, our craftsmanship is invisible but always present. Across every pixel, breakpoint, and interaction, elegance feels effortless.',
-        iconSrc: '/Precision.png'
+        id: 'development',
+        title: 'Development',
+        subtitle: 'Implementing digital solutions.',
+        icon: '⚙️',
+        overlay: {
+            title: 'Technical Excellence',
+            content: [
+                'Next.js & TypeScript',
+                'Tailwind CSS & Design Tokens',
+                'Framer Motion & micro-interactions',
+                'Cloud-native deployment on Vercel & AWS'
+            ]
+        }
     }
 ];
-function Pillars() {
+// Map expertise ids to PNG icons placed in /public
+const expertiseIcons = {
+    'ux-ui': '/uxuiexpertise.png',
+    design: '/Designexpertise.png',
+    development: '/Devexpertise.png',
+    branding: '/Branding.png'
+};
+function Expertise() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Section$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-        id: "pillars",
+        id: "expertise",
         className: "bg-bg-primary py-24",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Container$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "flex items-center gap-6 mb-16",
+                    className: "flex items-center gap-6 mb-6",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex-1 border-t border-text-base/20"
                         }, void 0, false, {
-                            fileName: "[project]/app/values/page.tsx",
-                            lineNumber: 49,
+                            fileName: "[project]/app/expertise/page.tsx",
+                            lineNumber: 85,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                             className: "heading-2",
-                            children: "4 Pillars"
+                            children: "Our Expertise"
                         }, void 0, false, {
-                            fileName: "[project]/app/values/page.tsx",
-                            lineNumber: 50,
+                            fileName: "[project]/app/expertise/page.tsx",
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "flex-1 border-t border-text-base/20"
                         }, void 0, false, {
-                            fileName: "[project]/app/values/page.tsx",
-                            lineNumber: 51,
+                            fileName: "[project]/app/expertise/page.tsx",
+                            lineNumber: 87,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
-                    fileName: "[project]/app/values/page.tsx",
-                    lineNumber: 48,
+                    fileName: "[project]/app/expertise/page.tsx",
+                    lineNumber: 84,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "text-center body mb-6",
-                    children: "What our values are built on"
+                    className: "text-center body mb-10",
+                    children: "Core services we offer"
                 }, void 0, false, {
-                    fileName: "[project]/app/values/page.tsx",
-                    lineNumber: 54,
+                    fileName: "[project]/app/expertise/page.tsx",
+                    lineNumber: 90,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center",
-                    children: pillars.map((pillar, index)=>{
+                    className: "grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch",
+                    children: expertiseData.map((item, index)=>{
+                        const description = [
+                            item.subtitle,
+                            '',
+                            ...item.overlay.content
+                        ].join('\n');
                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                             initial: {
                                 opacity: 0,
@@ -358,34 +408,33 @@ function Pillars() {
                                 opacity: 1,
                                 y: 0
                             },
+                            transition: {
+                                duration: 0.6,
+                                delay: index * 0.2
+                            },
                             viewport: {
                                 once: true
                             },
-                            transition: {
-                                duration: 0.4,
-                                delay: index * 0.1
-                            },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$RevealCard$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                title: pillar.title,
-                                description: pillar.description,
-                                iconSrc: pillar.iconSrc,
+                                title: item.title,
+                                description: description,
+                                iconSrc: expertiseIcons[item.id],
                                 minHeightClass: "min-h-[340px]",
-                                className: "text-center",
-                                headerNoWrap: pillar.title === 'Discretion'
+                                className: "text-center"
                             }, void 0, false, {
-                                fileName: "[project]/app/values/page.tsx",
-                                lineNumber: 65,
+                                fileName: "[project]/app/expertise/page.tsx",
+                                lineNumber: 107,
                                 columnNumber: 17
                             }, this)
-                        }, pillar.title, false, {
-                            fileName: "[project]/app/values/page.tsx",
-                            lineNumber: 58,
+                        }, item.id, false, {
+                            fileName: "[project]/app/expertise/page.tsx",
+                            lineNumber: 100,
                             columnNumber: 15
                         }, this);
                     })
                 }, void 0, false, {
-                    fileName: "[project]/app/values/page.tsx",
-                    lineNumber: 55,
+                    fileName: "[project]/app/expertise/page.tsx",
+                    lineNumber: 92,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -393,26 +442,26 @@ function Pillars() {
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                         href: "/contact",
                         className: "cta-button",
-                        children: "SHARE OUR VALUES →"
+                        children: "Build with us →"
                     }, void 0, false, {
-                        fileName: "[project]/app/values/page.tsx",
-                        lineNumber: 80,
+                        fileName: "[project]/app/expertise/page.tsx",
+                        lineNumber: 121,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
-                    fileName: "[project]/app/values/page.tsx",
-                    lineNumber: 79,
+                    fileName: "[project]/app/expertise/page.tsx",
+                    lineNumber: 120,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
-            fileName: "[project]/app/values/page.tsx",
-            lineNumber: 46,
+            fileName: "[project]/app/expertise/page.tsx",
+            lineNumber: 82,
             columnNumber: 7
         }, this)
     }, void 0, false, {
-        fileName: "[project]/app/values/page.tsx",
-        lineNumber: 45,
+        fileName: "[project]/app/expertise/page.tsx",
+        lineNumber: 81,
         columnNumber: 5
     }, this);
 }
@@ -420,4 +469,4 @@ function Pillars() {
 
 };
 
-//# sourceMappingURL=_fe25692a._.js.map
+//# sourceMappingURL=_91d8f4ad._.js.map

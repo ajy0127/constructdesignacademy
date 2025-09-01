@@ -99,42 +99,43 @@ export default function Navigation() {
             
             {/* Side Drawer */}
             <div className={clsx(
-              "fixed right-0 top-0 h-screen w-80 max-w-[85vw]",
+              "absolute right-0 top-0 w-64 max-w-[75vw]",
               "bg-cta-brass",
               "shadow-2xl transform transition-transform duration-300 ease-in-out",
               isOpen ? "translate-x-0" : "translate-x-full"
-            )}>
+            )}
+            style={{ height: 'auto', minHeight: '300px' }}>
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-black/20">
+              <div className="flex items-center justify-between p-4 border-b border-black/20">
                 <div className="flex items-center space-x-3">
                   <img 
                     src="/header-icon.png" 
                     alt="Construct Logo"
-                    className="h-8 w-8 object-contain"
+                    className="h-6 w-6 object-contain"
                   />
-                  <span className="font-serif uppercase tracking-[0.2em] text-sm text-black font-medium">
+                  <span className="font-serif uppercase tracking-[0.2em] text-xs text-black font-medium">
                     CONSTRUCT
                   </span>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-black hover:text-black/70 transition-colors p-2"
+                  className="text-black hover:text-black/70 transition-colors p-1"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
               {/* Navigation Links */}
-              <div className="py-8 px-6 space-y-6">
+              <div className="py-6 px-4 space-y-4">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={clsx(
-                      'block text-lg font-medium transition-colors duration-200',
+                      'block text-base font-medium transition-colors duration-200',
                       'text-black hover:text-black/70',
                       pathname === item.href && 'text-black font-semibold'
                     )}
@@ -144,11 +145,11 @@ export default function Navigation() {
                 ))}
                 
                 {/* Contact Button */}
-                <div className="pt-4 border-t border-black/20">
+                <div className="pt-3 border-t border-black/20">
                   <Link
                     href="/contact"
                     onClick={() => setIsOpen(false)}
-                    className="block w-full text-center py-3 px-6 bg-black text-cta-brass font-medium rounded-sm hover:bg-black/90 transition-colors duration-200"
+                    className="block w-full text-center py-2 px-4 bg-black text-cta-brass font-medium text-sm rounded-sm hover:bg-black/90 transition-colors duration-200"
                   >
                     Contact
                   </Link>

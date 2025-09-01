@@ -12,14 +12,12 @@ const nextConfig = {
     domains: ['localhost', 'constructdesignacademy.com'],
   },
   
-  // Experimental features
-  experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  // Turbopack configuration (moved from experimental)
+  turbo: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },

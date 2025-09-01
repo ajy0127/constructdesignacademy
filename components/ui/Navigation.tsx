@@ -90,7 +90,7 @@ export default function Navigation() {
 
         {/* Mobile Side Drawer Overlay */}
         {isOpen && (
-          <div className="md:hidden fixed inset-0 z-50">
+          <div className="md:hidden fixed inset-0 z-[9999]">
             {/* Backdrop */}
             <div 
               className="absolute inset-0 bg-black/50 backdrop-blur-sm"

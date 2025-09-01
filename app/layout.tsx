@@ -23,6 +23,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://constructdesignacademy.com'),
   title: 'Construct - The brand that builds brands.',
   description: 'Construct is a luxury design studio that builds brands. We specialize in crafting digital flagships, bespoke e-commerce experiences, and immersive product storytelling.',
   keywords: ['luxury design', 'brand development', 'web design', 'e-commerce', 'UX/UI'],

@@ -12,15 +12,6 @@ const nextConfig = {
     domains: ['localhost', 'constructdesignacademy.com'],
   },
   
-  // Turbopack configuration (moved from experimental)
-  turbo: {
-    rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
   
   // Enable React Strict Mode
   reactStrictMode: true,

@@ -1,8 +1,10 @@
 {
   "/_not-found/page": "/_not-found",
   "/expertise/page": "/expertise",
+  "/contact/page": "/contact",
+  "/test/page": "/test",
   "/process/page": "/process",
-  "/page": "/",
+  "/values/page": "/values",
   "/why-construct/page": "/why-construct",
-  "/values/page": "/values"
+  "/page": "/"
 }

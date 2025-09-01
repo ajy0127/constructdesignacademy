@@ -88,30 +88,72 @@ export default function Navigation() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Side Drawer Overlay */}
         {isOpen && (
-          <div className="md:hidden absolute left-0 right-0 bg-bg-primary/95 backdrop-blur-lg border-t border-text-base/10 shadow-lg">
-            <div className="py-4 px-6 space-y-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
+          <div className="md:hidden fixed inset-0 z-50">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Side Drawer */}
+            <div className={clsx(
+              "absolute right-0 top-0 h-full w-80 max-w-[85vw]",
+              "bg-gradient-to-b from-cta-brass to-cta-brass/90",
+              "shadow-2xl transform transition-transform duration-300 ease-in-out",
+              isOpen ? "translate-x-0" : "translate-x-full"
+            )}>
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-black/20">
+                <div className="flex items-center space-x-3">
+                  <img 
+                    src="/header-icon.png" 
+                    alt="Construct Logo"
+                    className="h-8 w-8 object-contain"
+                  />
+                  <span className="font-serif uppercase tracking-[0.2em] text-sm text-black font-medium">
+                    CONSTRUCT
+                  </span>
+                </div>
+                <button
                   onClick={() => setIsOpen(false)}
-                  className={clsx(
-                    'block px-3 py-2 eyebrow transition-colors duration-200',
-                    'text-text-base/80 hover:text-text-base'
-                  )}
+                  className="text-black hover:text-black/70 transition-colors p-2"
                 >
-                  {item.label}
-                </Link>
-              ))}
-              <Link
-                href="/contact"
-                onClick={() => setIsOpen(false)}
-                className="cta-button inline-block mx-3 my-2"
-              >
-                Contact
-              </Link>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="py-8 px-6 space-y-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={clsx(
+                      'block text-lg font-medium transition-colors duration-200',
+                      'text-black hover:text-black/70',
+                      pathname === item.href && 'text-black/90 font-semibold'
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                
+                {/* Contact Button */}
+                <div className="pt-4 border-t border-black/20">
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsOpen(false)}
+                    className="block w-full text-center py-3 px-6 bg-black text-cta-brass font-medium rounded-sm hover:bg-black/90 transition-colors duration-200"
+                  >
+                    Contact
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -24,7 +24,10 @@
     "path": "/_next/image/",
     "loader": "default",
     "loaderFile": "",
-    "domains": [],
+    "domains": [
+      "localhost",
+      "constructdesignacademy.com"
+    ],
     "disableStaticImages": false,
     "minimumCacheTTL": 60,
     "formats": [

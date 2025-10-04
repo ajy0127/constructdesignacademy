@@ -89,7 +89,7 @@ export default function Hero() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-cta-brass/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cta-brass/3 rounded-full blur-[100px] pointer-events-none" />
       
-      <div className="relative min-h-[calc(100vh-96px)] flex items-center justify-center pt-12 md:pt-20 lg:pt-28 pb-10 md:pb-14">
+      <div className="relative min-h-[calc(100vh-96px)] flex items-center justify-center pt-40 md:pt-20 lg:pt-28 pb-20 md:pb-14">
         {/* Large hero icon */}
         <div
           id="hero-wordmark"

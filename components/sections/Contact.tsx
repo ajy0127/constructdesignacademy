@@ -25,7 +25,11 @@ export default function Contact() {
     setSubmitStatus('idle');
     
     try {
-      const response = await fetch('/api/contact', {
+      // Use Lambda API endpoint for production, local API for development
+      const apiEndpoint = process.env.NEXT_PUBLIC_CONTACT_API || 
+        'https://i3ey2gmi4b.execute-api.us-east-1.amazonaws.com/prod/contact';
+      
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

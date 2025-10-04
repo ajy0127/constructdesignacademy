@@ -1,0 +1,10 @@
+{
+  "/api/contact/route": "/api/contact",
+  "/_not-found/page": "/_not-found",
+  "/process/page": "/process",
+  "/expertise/page": "/expertise",
+  "/why-construct/page": "/why-construct",
+  "/values/page": "/values",
+  "/contact/page": "/contact",
+  "/page": "/"
+}

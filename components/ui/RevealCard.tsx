@@ -24,7 +24,6 @@ export default function RevealCard({
   iconNode,
   className = '',
   minHeightClass = 'min-h-[280px]',
-  headerNoWrap = false,
 }: RevealCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);

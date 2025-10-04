@@ -25,28 +25,16 @@ export default function Contact() {
     setSubmitStatus('idle');
     
     try {
-      // Formspree integration - Replace YOUR_FORM_ID with your actual Formspree form ID
-      // Get your form ID from: https://formspree.io/
-      const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ID 
-        ? `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID}`
-        : null;
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-      if (FORMSPREE_ENDPOINT) {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          throw new Error('Form submission failed');
-        }
-      } else {
-        // Fallback: Simulate submission if no endpoint configured
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        throw new Error('Form submission failed');
       }
       
       setSubmitStatus('success');

@@ -10,6 +10,7 @@
     "deploy": "npm run build && aws s3 sync ./out s3://constructdesignacademy.com --profile con --delete"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.901.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.17",
     "next": "15.3.4",

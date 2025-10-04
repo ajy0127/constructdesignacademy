@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Container from '../../components/ui/Container';
 import Section from '../../components/ui/Section';
-import Button from '../../components/ui/Button';
+import Button from '../../components/sections/Button';
 
 const expertise = [
   {

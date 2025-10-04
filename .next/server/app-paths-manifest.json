@@ -1,10 +1,6 @@
 {
-  "/api/contact/route": "app/api/contact/route.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/process/page": "app/process/page.js",
   "/expertise/page": "app/expertise/page.js",
-  "/why-construct/page": "app/why-construct/page.js",
-  "/values/page": "app/values/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/values/page": "app/values/page.js"
 }

@@ -76,7 +76,7 @@ export default function Hero() {
             className="space-y-8 opacity-0 transition-opacity duration-300 ease-out data-[visible=true]:opacity-100 pointer-events-none data-[visible=true]:pointer-events-auto"
           >
             <blockquote className="space-y-3">
-              <h1 className="font-serif text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base px-4">
+              <h1 className="font-serif text-[1.75rem] sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base px-4 whitespace-nowrap">
                 &ldquo;The brand that builds brands.&rdquo;
               </h1>
               <cite className="block font-sans text-base md:text-lg text-text-base/60 not-italic text-center">

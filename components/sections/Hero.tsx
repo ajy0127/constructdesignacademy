@@ -11,6 +11,9 @@ export default function Hero() {
     const header = document.getElementById('site-header');
     const heroWordmark = document.getElementById('hero-wordmark');
     const heroContent = document.getElementById('hero-content');
+    const headerLogo = header?.querySelector('[data-logo]') as HTMLElement;
+    const headerWordmark = header?.querySelector('[data-header-wordmark]') as HTMLElement;
+    const headerWordmarkMobile = header?.querySelector('[data-header-wordmark-mobile]') as HTMLElement;
     
     if (!header || !heroWordmark || !heroContent) return;
 
@@ -21,9 +24,19 @@ export default function Hero() {
       if (scrollY > 50) {
         heroWordmark.setAttribute('data-hidden', 'true');
         heroContent.setAttribute('data-visible', 'true');
+        
+        // Fade in header elements
+        if (headerLogo) headerLogo.style.opacity = '1';
+        if (headerWordmark) headerWordmark.style.opacity = '1';
+        if (headerWordmarkMobile) headerWordmarkMobile.style.opacity = '1';
       } else {
         heroWordmark.setAttribute('data-hidden', 'false');
         heroContent.setAttribute('data-visible', 'false');
+        
+        // Fade out header elements
+        if (headerLogo) headerLogo.style.opacity = '0';
+        if (headerWordmark) headerWordmark.style.opacity = '0';
+        if (headerWordmarkMobile) headerWordmarkMobile.style.opacity = '0';
       }
     };
 

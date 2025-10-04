@@ -34,8 +34,8 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-full">
-          {/* Left - Small wordmark fades in when scrolled */}
-          <Link href="/" className="flex items-center h-full space-x-3">
+          {/* Left - Small wordmark fades in when scrolled - Desktop only */}
+          <Link href="/" className="hidden md:flex items-center h-full space-x-3">
             <div className="relative h-8 w-8 flex items-center justify-center">
               <img 
                 src="/header-icon.png" 
@@ -59,6 +59,19 @@ export default function Navigation() {
               CONSTRUCT
             </span>
           </Link>
+
+          {/* Mobile - Centered CONSTRUCT text that fades in */}
+          <div className="md:hidden flex-1 flex justify-center">
+            <span 
+              data-header-wordmark-mobile
+              className="font-serif uppercase tracking-[0.2em] text-sm text-text-base transition-opacity duration-300 opacity-0"
+              style={{
+                willChange: 'opacity'
+              }}
+            >
+              CONSTRUCT
+            </span>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

@@ -108,13 +108,13 @@ export default function Hero() {
             }}
           />
         </div>
-        <Container className="text-center">
+        <Container className="text-center px-6 md:px-8">
           <div
             id="hero-content"
             className="space-y-8 opacity-0 data-[in=true]:opacity-100 transition-opacity duration-300 pointer-events-none data-[in=true]:pointer-events-auto"
           >
             <blockquote className="space-y-3">
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base whitespace-nowrap">
+              <h1 className="font-serif text-[2rem] sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base px-4">
                 &ldquo;The brand that builds brands.&rdquo;
               </h1>
               <cite className="block font-sans text-base md:text-lg text-text-base/60 not-italic text-center">

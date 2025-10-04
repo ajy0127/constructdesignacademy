@@ -45,22 +45,23 @@ export default function Pillars() {
     <Section id="pillars" className="bg-bg-primary py-24">
       <Container>
         {/* Heading with divider lines to match landing */}
-        <div className="flex items-center gap-6 mb-16">
+        <div className="flex items-center gap-6 mb-6">
           <div className="flex-1 border-t border-text-base/20" />
           <h2 className="heading-2">4 Pillars</h2>
           <div className="flex-1 border-t border-text-base/20" />
         </div>
 
-        <p className="text-center body mb-6">What our values are built on</p>
+        <p className="text-center text-lg md:text-xl text-text-base/70 font-light mb-12 max-w-2xl mx-auto">
+          The foundational principles that guide every decision we make
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
           {pillars.map((pillar, index) => {
             return (
               <motion.div
                 key={pillar.title}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
               >
                 <RevealCard
                   title={pillar.title}
@@ -81,7 +82,7 @@ export default function Pillars() {
             href="/contact"
             className="cta-button"
           >
-            SHARE OUR VALUES →
+            Share our values →
           </Link>
         </div>
       </Container>

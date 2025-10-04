@@ -59,235 +59,340 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Section$
 ;
 ;
 function Hero() {
-    // Enhanced scroll behavior with smoother transitions
+    // Smooth lazy scroll behavior with easing
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const header = document.getElementById('site-header');
         const heroWordmark = document.getElementById('hero-wordmark');
         const headerWordmark = header?.querySelector('[data-header-wordmark]');
         const heroContent = document.getElementById('hero-content');
-        const hero = document.getElementById('hero');
-        if (!header || !heroWordmark || !headerWordmark || !heroContent || !hero) return;
-        // No need for these constants with immediate transition
+        if (!header || !heroWordmark || !headerWordmark || !heroContent) return;
+        // Detect mobile
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        // Smooth easing function
+        const easeOutCubic = (t)=>1 - Math.pow(1 - t, 3);
+        const easeOutQuad = (t)=>1 - (1 - t) * (1 - t); // Faster easing for mobile
         const updateScrollState = ()=>{
             const scrollY = window.scrollY;
-            // Get header elements
             const headerLogo = header.querySelector('[data-logo]');
-            // Update header state - immediate transition when scrolling starts
             const isScrolled = scrollY > 1;
-            header.dataset.scrolled = isScrolled.toString();
-            // Calculate progress (0 or 1 for immediate transition)
-            const progress = Math.min(1, scrollY / 20);
-            // Hero wordmark - immediate fade out
-            heroWordmark.style.opacity = (1 - progress).toString();
+            // Mobile: Ultra-fast transition (0-15px). Desktop: Quick (0-30px)
+            const logoFadeRange = isMobile ? 15 : 30;
+            const logoProgress = Math.min(1, scrollY / logoFadeRange);
+            const easedProgress = isMobile ? easeOutQuad(logoProgress) : easeOutCubic(logoProgress);
+            // Hero wordmark - instant fade on mobile, quick on desktop
+            heroWordmark.style.opacity = (1 - easedProgress).toString();
+            heroWordmark.style.transform = `scale(${1 - logoProgress * 0.05}) translateY(${logoProgress * -10}px)`;
             heroWordmark.style.pointerEvents = isScrolled ? 'none' : 'auto';
-            // Header elements - immediate fade in
+            // Header elements - synchronized fade in
             if (headerLogo) {
-                headerLogo.style.opacity = progress.toString();
+                headerLogo.style.opacity = easedProgress.toString();
             }
             if (headerWordmark) {
-                headerWordmark.style.opacity = progress.toString();
+                headerWordmark.style.opacity = easedProgress.toString();
             }
-            // Content - always visible unless at very top
-            const contentOpacity = scrollY === 0 ? 0 : 1;
+            // Content - immediate fade on mobile (5px start), slightly delayed on desktop (10px)
+            const contentStart = isMobile ? 5 : 10;
+            const contentRange = isMobile ? 25 : 40;
+            const contentProgress = Math.max(0, Math.min(1, (scrollY - contentStart) / contentRange));
+            const contentOpacity = isMobile ? easeOutQuad(contentProgress) : easeOutCubic(contentProgress);
             heroContent.style.opacity = contentOpacity.toString();
-            heroContent.style.pointerEvents = isScrolled ? 'auto' : 'none';
-            // Update header height with smooth transition
-            header.style.height = `${96 - 32 * Math.min(1, scrollY / 120)}px`;
+            heroContent.style.pointerEvents = contentOpacity > 0.5 ? 'auto' : 'none';
+            // Quick header height transition
+            const heightRange = isMobile ? 40 : 60;
+            const heightProgress = Math.min(1, scrollY / heightRange);
+            header.style.height = `${96 - 32 * easeOutCubic(heightProgress)}px`;
         };
         // Initial state
         updateScrollState();
-        // Add event listeners
-        const onScroll = ()=>requestAnimationFrame(updateScrollState);
-        const onResize = ()=>requestAnimationFrame(updateScrollState);
+        // Throttled scroll handler for better performance
+        let ticking = false;
+        const onScroll = ()=>{
+            if (!ticking) {
+                requestAnimationFrame(()=>{
+                    updateScrollState();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
         window.addEventListener('scroll', onScroll, {
             passive: true
         });
-        window.addEventListener('resize', onResize, {
+        window.addEventListener('resize', updateScrollState, {
             passive: true
         });
         return ()=>{
             window.removeEventListener('scroll', onScroll);
-            window.removeEventListener('resize', onResize);
+            window.removeEventListener('resize', updateScrollState);
         };
     }, []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Section$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
         id: "hero",
-        className: "bg-bg-primary",
+        className: "bg-bg-primary relative overflow-hidden",
         removePadding: "y",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "relative min-h-[calc(100vh-96px)] flex items-center pt-12 md:pt-20 lg:pt-28 pb-10 md:pb-14",
-            children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    id: "hero-wordmark",
-                    "aria-hidden": "true",
-                    className: "absolute inset-0 m-auto will-change-transform will-change-opacity select-none pointer-events-none transition-all duration-500 flex items-center justify-center",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: "/header-icon.png",
-                        alt: "Construct Logo",
-                        className: "h-[30vw] w-auto max-h-[400px] transition-opacity duration-500",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute top-0 right-0 w-[600px] h-[600px] bg-cta-brass/5 rounded-full blur-[120px] pointer-events-none"
+            }, void 0, false, {
+                fileName: "[project]/components/sections/Hero.tsx",
+                lineNumber: 89,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "absolute bottom-0 left-0 w-[400px] h-[400px] bg-cta-brass/3 rounded-full blur-[100px] pointer-events-none"
+            }, void 0, false, {
+                fileName: "[project]/components/sections/Hero.tsx",
+                lineNumber: 90,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "relative min-h-[calc(100vh-96px)] flex items-center justify-center pt-12 md:pt-20 lg:pt-28 pb-10 md:pb-14",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        id: "hero-wordmark",
+                        "aria-hidden": "true",
+                        className: "absolute inset-0 flex items-center justify-center will-change-transform will-change-opacity select-none pointer-events-none",
                         style: {
-                            opacity: 1,
-                            willChange: 'opacity, transform',
-                            objectFit: 'contain'
-                        }
+                            top: '-20vh',
+                            marginTop: '-5vh'
+                        },
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: "/header-icon.png",
+                            alt: "Construct Logo",
+                            className: "h-[22vh] md:h-[30vw] w-auto max-h-[280px] md:max-h-[400px]",
+                            style: {
+                                opacity: 1,
+                                willChange: 'opacity, transform',
+                                objectFit: 'contain'
+                            }
+                        }, void 0, false, {
+                            fileName: "[project]/components/sections/Hero.tsx",
+                            lineNumber: 100,
+                            columnNumber: 11
+                        }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/sections/Hero.tsx",
-                        lineNumber: 80,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/components/sections/Hero.tsx",
-                    lineNumber: 75,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Container$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                    className: "text-center",
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        id: "hero-content",
-                        className: "space-y-8 opacity-0 data-[in=true]:opacity-100 transition-opacity duration-300 pointer-events-none data-[in=true]:pointer-events-auto",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("blockquote", {
-                                className: "space-y-4",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                        className: "heading-display md:whitespace-nowrap",
-                                        children: '"The brand that builds brands."'
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/sections/Hero.tsx",
-                                        lineNumber: 97,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("cite", {
-                                        className: "block font-sans text-lg md:text-xl text-text-base/60 not-italic text-center",
-                                        children: [
-                                            "— ",
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                href: "https://www.linkedin.com/in/ajyawn/",
-                                                target: "_blank",
-                                                rel: "noopener noreferrer",
-                                                className: "hover:text-text-base transition-colors underline",
-                                                children: "AJ Yawn"
+                        lineNumber: 94,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Container$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        className: "text-center",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            id: "hero-content",
+                            className: "space-y-8 opacity-0 data-[in=true]:opacity-100 transition-opacity duration-300 pointer-events-none data-[in=true]:pointer-events-auto",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("blockquote", {
+                                    className: "space-y-3",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                            className: "font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base whitespace-nowrap",
+                                            children: "“The brand that builds brands.”"
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 117,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("cite", {
+                                            className: "block font-sans text-base md:text-lg text-text-base/60 not-italic text-center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                    href: "https://www.linkedin.com/in/ajyawn/",
+                                                    target: "_blank",
+                                                    rel: "noopener noreferrer",
+                                                    className: "hover:text-text-base transition-colors",
+                                                    children: "AJ Yawn"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.tsx",
+                                                    lineNumber: 121,
+                                                    columnNumber: 17
+                                                }, this),
+                                                ", Best Selling Author"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 120,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/components/sections/Hero.tsx",
+                                    lineNumber: 116,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                                    initial: {
+                                        opacity: 0,
+                                        scaleX: 0
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        scaleX: 1
+                                    },
+                                    transition: {
+                                        duration: 0.6,
+                                        delay: 0.5
+                                    },
+                                    className: "w-16 h-px bg-cta-brass mx-auto my-12"
+                                }, void 0, false, {
+                                    fileName: "[project]/components/sections/Hero.tsx",
+                                    lineNumber: 125,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                                    initial: {
+                                        opacity: 0,
+                                        y: 20
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        y: 0
+                                    },
+                                    transition: {
+                                        duration: 0.5,
+                                        delay: 0.7
+                                    },
+                                    className: "max-w-2xl mx-auto space-y-8",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg md:text-xl leading-relaxed text-text-base/80 font-light",
+                                            children: "We design digital and physical experiences with architectural precision and cultural taste."
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 139,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg md:text-xl leading-relaxed text-text-base/80 font-light",
+                                            children: "Every form serves a feeling, and every detail is intentional."
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 142,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg md:text-xl leading-relaxed text-text-base/80 font-light",
+                                            children: "From identity systems to product UX, we help visionary teams build brands that resonate, move, and endure."
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 145,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pt-6",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-xl md:text-2xl font-serif italic text-cta-brass/90",
+                                                children: "Experience is the product."
                                             }, void 0, false, {
                                                 fileName: "[project]/components/sections/Hero.tsx",
-                                                lineNumber: 101,
-                                                columnNumber: 19
-                                            }, this),
-                                            ", Best Selling Author"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/components/sections/Hero.tsx",
-                                        lineNumber: 100,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/components/sections/Hero.tsx",
-                                lineNumber: 96,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                initial: {
-                                    opacity: 0,
-                                    y: 20
-                                },
-                                animate: {
-                                    opacity: 1,
-                                    y: 0
-                                },
-                                transition: {
-                                    duration: 0.4,
-                                    delay: 0.6
-                                },
-                                className: "mt-8 max-w-3xl mx-auto",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "lead leading-relaxed",
-                                    children: 'CONSTRUCT, the "brand that builds brands." We design digital and physical experiences with architectural precision and cultural taste. Where form serves feeling, and every detail is intentional. From identity systems to product UX, we help visionary teams build brands that resonate, move, and last.'
-                                }, void 0, false, {
+                                                lineNumber: 151,
+                                                columnNumber: 17
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 150,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/components/sections/Hero.tsx",
-                                    lineNumber: 110,
-                                    columnNumber: 15
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.tsx",
-                                lineNumber: 104,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].p, {
-                                initial: {
-                                    opacity: 0,
-                                    y: 20
-                                },
-                                animate: {
-                                    opacity: 1,
-                                    y: 0
-                                },
-                                transition: {
-                                    duration: 0.4,
-                                    delay: 0.9
-                                },
-                                className: "lead",
-                                children: "Experience is the product."
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.tsx",
-                                lineNumber: 114,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                                initial: {
-                                    opacity: 0,
-                                    y: 20
-                                },
-                                animate: {
-                                    opacity: 1,
-                                    y: 0
-                                },
-                                transition: {
-                                    duration: 0.4,
-                                    delay: 1.0
-                                },
-                                className: "pt-8",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                    href: "/contact",
-                                    className: "cta-button",
-                                    children: "Build with us →"
-                                }, void 0, false, {
+                                    lineNumber: 133,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                                    initial: {
+                                        opacity: 0,
+                                        y: 20
+                                    },
+                                    animate: {
+                                        opacity: 1,
+                                        y: 0
+                                    },
+                                    transition: {
+                                        duration: 0.5,
+                                        delay: 1.0
+                                    },
+                                    className: "pt-16 flex flex-col items-center gap-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            href: "/contact",
+                                            className: "group inline-flex items-center gap-3 font-label uppercase tracking-[0.2em] text-sm border-2 border-cta-brass text-cta-brass px-10 py-4 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-all duration-300",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: "Build with us"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.tsx",
+                                                    lineNumber: 168,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                                    className: "w-4 h-4 transition-transform group-hover:translate-x-1",
+                                                    fill: "none",
+                                                    stroke: "currentColor",
+                                                    viewBox: "0 0 24 24",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                        strokeLinecap: "round",
+                                                        strokeLinejoin: "round",
+                                                        strokeWidth: 2,
+                                                        d: "M17 8l4 4m0 0l-4 4m4-4H3"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/components/sections/Hero.tsx",
+                                                        lineNumber: 170,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/components/sections/Hero.tsx",
+                                                    lineNumber: 169,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 164,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs uppercase tracking-widest text-text-base/40 font-label",
+                                            children: "Start your project"
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/sections/Hero.tsx",
+                                            lineNumber: 173,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/components/sections/Hero.tsx",
-                                    lineNumber: 128,
-                                    columnNumber: 15
+                                    lineNumber: 158,
+                                    columnNumber: 13
                                 }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/components/sections/Hero.tsx",
-                                lineNumber: 122,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/components/sections/Hero.tsx",
+                            lineNumber: 112,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
                         fileName: "[project]/components/sections/Hero.tsx",
-                        lineNumber: 92,
-                        columnNumber: 11
+                        lineNumber: 111,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        id: "hero-sentinel",
+                        className: "absolute bottom-0 left-0 right-0 h-[1px]"
+                    }, void 0, false, {
+                        fileName: "[project]/components/sections/Hero.tsx",
+                        lineNumber: 180,
+                        columnNumber: 9
                     }, this)
-                }, void 0, false, {
-                    fileName: "[project]/components/sections/Hero.tsx",
-                    lineNumber: 91,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    id: "hero-sentinel",
-                    className: "absolute bottom-0 left-0 right-0 h-[1px]"
-                }, void 0, false, {
-                    fileName: "[project]/components/sections/Hero.tsx",
-                    lineNumber: 138,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "[project]/components/sections/Hero.tsx",
-            lineNumber: 73,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/sections/Hero.tsx",
+                lineNumber: 92,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "[project]/components/sections/Hero.tsx",
-        lineNumber: 72,
+        lineNumber: 87,
         columnNumber: 5
     }, this);
 }
@@ -302,10 +407,12 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/render/components/motion/proxy.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-ssr] (ecmascript)");
 'use client';
+;
 ;
 ;
 ;
@@ -314,203 +421,343 @@ function RevealCard({ title, description, iconSrc, iconAlt, iconNode, className 
     const [selected, setSelected] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isHoverCapable, setIsHoverCapable] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    // Detect if the device supports hover (desktop) to enable hover-to-reveal only there
+    const [isMobile, setIsMobile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
+    // Close modal when navigating to a different page
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (selected) {
+            setSelected(false);
+        }
+    }, [
+        pathname
+    ]);
+    // Detect hover capability and mobile
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if ("TURBOPACK compile-time falsy", 0) {
             "TURBOPACK unreachable";
         }
     }, []);
-    const toggle = ()=>setSelected((s)=>!s);
+    const toggle = ()=>{
+        setSelected((s)=>!s);
+        // Reset hover state when toggling to prevent stuck states
+        setHovered(false);
+    };
     const onKey = (e)=>{
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             toggle();
         }
     };
-    const active = selected || isHoverCapable && hovered;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        role: "button",
-        tabIndex: 0,
-        "aria-pressed": active,
-        onClick: toggle,
-        onKeyDown: onKey,
-        onMouseEnter: ()=>isHoverCapable && setHovered(true),
-        onMouseLeave: ()=>isHoverCapable && setHovered(false),
-        className: `border border-text-base/10 p-8 rounded-lg transition-colors duration-200 ease-out h-full ${minHeightClass} flex flex-col items-center text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cta-brass hover:bg-cta-brass hover:border-cta-brass hover:text-black hover:[&_h3]:!text-black hover:[&_p]:!text-black/90 hover:[&_h3]:duration-0 hover:[&_p]:duration-0 ${selected ? 'bg-cta-brass border-cta-brass text-black' : 'text-text-base'} ${className}`,
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
-            mode: "wait",
-            initial: false,
-            children: !active ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                initial: {
-                    opacity: 0,
-                    y: 8
-                },
-                animate: {
-                    opacity: 1,
-                    y: 0
-                },
-                exit: {
-                    opacity: 0,
-                    y: -8
-                },
-                transition: {
-                    duration: 0.18
-                },
-                className: "flex flex-1 flex-col items-center justify-center w-full",
-                children: [
-                    (iconNode || iconSrc) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "w-[120px] h-[120px] p-2 mb-6 flex items-center justify-center",
-                        children: iconNode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-7xl leading-none select-none",
-                            children: iconNode
+    const handleMouseEnter = ()=>{
+        // Only allow hover on desktop, not on mobile or touch devices
+        if (isHoverCapable && !isMobile && !selected) {
+            setHovered(true);
+        }
+    };
+    const handleMouseLeave = ()=>{
+        // Always reset hover state on mouse leave
+        if (hovered) {
+            setHovered(false);
+        }
+    };
+    // On desktop: hover OR selected. On mobile: only selected
+    // Prevent hover if already selected
+    const active = selected || !selected && isHoverCapable && hovered && !isMobile;
+    const baseClasses = 'border p-8 rounded-lg h-full flex flex-col items-center text-center will-change-transform';
+    const focusClasses = 'focus:outline-none focus-visible:ring-2 focus-visible:ring-cta-brass';
+    const hoverClasses = 'md:hover:bg-cta-brass md:hover:border-cta-brass md:hover:text-black transition-colors duration-150 ease-out';
+    // Don't show brass state on mobile when modal is open
+    const activeClasses = selected && !isMobile ? 'bg-cta-brass border-cta-brass text-black' : 'border-text-base/10 text-text-base';
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
+                mode: "wait",
+                children: isMobile && selected && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                    initial: {
+                        opacity: 0
+                    },
+                    animate: {
+                        opacity: 1
+                    },
+                    exit: {
+                        opacity: 0
+                    },
+                    transition: {
+                        duration: 0.2,
+                        ease: 'easeInOut'
+                    },
+                    className: "fixed inset-0 z-[9999] bg-bg-primary",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                            initial: {
+                                opacity: 0,
+                                y: 20
+                            },
+                            animate: {
+                                opacity: 1,
+                                y: 0
+                            },
+                            exit: {
+                                opacity: 0,
+                                y: 10
+                            },
+                            transition: {
+                                duration: 0.25,
+                                ease: 'easeOut'
+                            },
+                            className: "h-full overflow-y-auto pt-24 pb-32 px-6",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "max-w-md mx-auto text-center",
+                                children: [
+                                    (iconNode || iconSrc) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "mb-8",
+                                        children: iconNode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-8xl leading-none select-none opacity-80",
+                                            children: iconNode
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/ui/RevealCard.tsx",
+                                            lineNumber: 138,
+                                            columnNumber: 21
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            src: iconSrc,
+                                            alt: iconAlt ?? title,
+                                            width: 120,
+                                            height: 120,
+                                            loading: "lazy",
+                                            className: "object-contain mx-auto opacity-80 brightness-150"
+                                        }, void 0, false, {
+                                            fileName: "[project]/components/ui/RevealCard.tsx",
+                                            lineNumber: 142,
+                                            columnNumber: 21
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 136,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "w-16 h-px bg-cta-brass mb-8 mx-auto"
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 155,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: `font-serif text-3xl text-text-base mb-6 leading-tight ${headerNoWrap ? 'whitespace-nowrap' : ''}`,
+                                        children: description.split('\n')[0]
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 158,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "space-y-4",
+                                        children: description.split('\n').slice(1).map((line, i)=>line.trim() && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "text-base text-text-base/90 leading-relaxed",
+                                                children: line
+                                            }, i, false, {
+                                                fileName: "[project]/components/ui/RevealCard.tsx",
+                                                lineNumber: 166,
+                                                columnNumber: 21
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 163,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/ui/RevealCard.tsx",
+                                lineNumber: 132,
+                                columnNumber: 13
+                            }, this)
                         }, void 0, false, {
                             fileName: "[project]/components/ui/RevealCard.tsx",
-                            lineNumber: 78,
-                            columnNumber: 19
-                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "relative w-full h-full",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                            lineNumber: 125,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                            initial: {
+                                opacity: 0,
+                                y: 20
+                            },
+                            animate: {
+                                opacity: 1,
+                                y: 0
+                            },
+                            exit: {
+                                opacity: 0,
+                                y: 10
+                            },
+                            transition: {
+                                duration: 0.3,
+                                delay: 0.1
+                            },
+                            className: "fixed bottom-8 left-0 right-0 flex justify-center z-[10000] pointer-events-none",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: (e)=>{
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setSelected(false);
+                                },
+                                className: "pointer-events-auto px-6 py-2 bg-text-base/10 backdrop-blur-sm text-text-base/60 hover:text-text-base hover:bg-text-base/20 font-label uppercase tracking-widest text-xs rounded-full transition-all",
+                                children: "Close"
+                            }, void 0, false, {
+                                fileName: "[project]/components/ui/RevealCard.tsx",
+                                lineNumber: 183,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/components/ui/RevealCard.tsx",
+                            lineNumber: 176,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/ui/RevealCard.tsx",
+                    lineNumber: 117,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/components/ui/RevealCard.tsx",
+                lineNumber: 115,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                role: "button",
+                tabIndex: 0,
+                "aria-pressed": active,
+                "aria-label": `${title} - Click to reveal more information`,
+                onClick: toggle,
+                onKeyDown: onKey,
+                onMouseEnter: handleMouseEnter,
+                onMouseLeave: handleMouseLeave,
+                className: `${baseClasses} ${focusClasses} ${hoverClasses} ${activeClasses} ${minHeightClass} ${className}`,
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
+                    mode: "wait",
+                    initial: false,
+                    children: !active || isMobile ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0,
+                            y: 4
+                        },
+                        animate: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        exit: {
+                            opacity: 0,
+                            y: -4
+                        },
+                        transition: {
+                            duration: 0.15,
+                            ease: 'easeOut'
+                        },
+                        className: "flex flex-1 flex-col items-center justify-center w-full",
+                        children: [
+                            (iconNode || iconSrc) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "w-[120px] h-[120px] p-2 mb-6 flex items-center justify-center",
+                                children: iconNode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "text-7xl leading-none select-none",
+                                    children: iconNode
+                                }, void 0, false, {
+                                    fileName: "[project]/components/ui/RevealCard.tsx",
+                                    lineNumber: 224,
+                                    columnNumber: 19
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                     src: iconSrc,
                                     alt: iconAlt ?? title,
                                     width: 120,
                                     height: 120,
-                                    className: "object-contain w-full h-full border-0 ring-0 outline-none shadow-none bg-transparent",
-                                    onError: (e)=>{
-                                        console.error(`[Image Error] Failed to load image: ${iconSrc}`, {
-                                            error: e,
-                                            currentSrc: e.target.currentSrc,
-                                            availableImages: [
-                                                '/Heritage.png',
-                                                '/Precision.png',
-                                                '/innovation.png',
-                                                '/discreation.png'
-                                            ].map((img)=>({
-                                                    path: img,
-                                                    exists: document.querySelector(`img[src*="${img}"]`) !== null
-                                                }))
-                                        });
-                                        const target = e.target;
-                                        target.style.display = 'none';
-                                    },
-                                    onLoad: ()=>{
-                                        console.log(`[Image Loaded] Successfully loaded: ${iconSrc}`, {
-                                            currentSrc: document.querySelector(`img[src*="${iconSrc}"]`)?.currentSrc
-                                        });
-                                    }
+                                    loading: "lazy",
+                                    className: "object-contain w-full h-full"
                                 }, void 0, false, {
                                     fileName: "[project]/components/ui/RevealCard.tsx",
-                                    lineNumber: 83,
-                                    columnNumber: 21
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "absolute inset-0 opacity-0 hover:opacity-100 transition-opacity pointer-events-none",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs p-1 text-center",
-                                        children: iconSrc
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/ui/RevealCard.tsx",
-                                        lineNumber: 113,
-                                        columnNumber: 23
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/components/ui/RevealCard.tsx",
-                                    lineNumber: 112,
-                                    columnNumber: 21
-                                }, this),
-                                !iconSrc && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "absolute inset-0 flex items-center justify-center text-red-500",
-                                    children: "Missing Icon"
-                                }, void 0, false, {
-                                    fileName: "[project]/components/ui/RevealCard.tsx",
-                                    lineNumber: 118,
-                                    columnNumber: 23
+                                    lineNumber: 228,
+                                    columnNumber: 19
                                 }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/components/ui/RevealCard.tsx",
-                            lineNumber: 82,
-                            columnNumber: 19
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/components/ui/RevealCard.tsx",
-                        lineNumber: 76,
-                        columnNumber: 15
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                        className: "font-serif text-xl mb-2",
-                        children: title
-                    }, void 0, false, {
-                        fileName: "[project]/components/ui/RevealCard.tsx",
-                        lineNumber: 126,
-                        columnNumber: 13
-                    }, this)
-                ]
-            }, "front", true, {
-                fileName: "[project]/components/ui/RevealCard.tsx",
-                lineNumber: 67,
-                columnNumber: 11
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
-                initial: {
-                    opacity: 0,
-                    y: 8
-                },
-                animate: {
-                    opacity: 1,
-                    y: 0
-                },
-                exit: {
-                    opacity: 0,
-                    y: -8
-                },
-                transition: {
-                    duration: 0.18
-                },
-                className: "flex flex-1 items-center justify-center w-full",
-                children: (()=>{
-                    const [firstLine, ...restLines] = description.split('\n');
-                    const body = restLines.join('\n').trim();
-                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-center max-w-[36ch] mx-auto",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: `font-serif text-base md:text-lg text-black mb-3 ${headerNoWrap ? 'whitespace-nowrap' : ''}`,
-                                children: firstLine
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/RevealCard.tsx",
-                                lineNumber: 142,
-                                columnNumber: 19
+                                lineNumber: 222,
+                                columnNumber: 15
                             }, this),
-                            body && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: "body-sm whitespace-pre-line text-black/90",
-                                children: body
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "font-serif text-xl mb-2",
+                                children: title
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/RevealCard.tsx",
-                                lineNumber: 146,
-                                columnNumber: 21
+                                lineNumber: 239,
+                                columnNumber: 13
                             }, this)
                         ]
-                    }, void 0, true, {
+                    }, "front", true, {
                         fileName: "[project]/components/ui/RevealCard.tsx",
-                        lineNumber: 141,
-                        columnNumber: 17
-                    }, this);
-                })()
-            }, "back", false, {
+                        lineNumber: 213,
+                        columnNumber: 11
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
+                        initial: {
+                            opacity: 0,
+                            y: 4
+                        },
+                        animate: {
+                            opacity: 1,
+                            y: 0
+                        },
+                        exit: {
+                            opacity: 0,
+                            y: -4
+                        },
+                        transition: {
+                            duration: 0.15,
+                            ease: 'easeOut'
+                        },
+                        className: "flex flex-1 items-center justify-center w-full",
+                        children: (()=>{
+                            const [firstLine, ...restLines] = description.split('\n');
+                            const body = restLines.join('\n').trim();
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-center max-w-[36ch] mx-auto",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: `font-serif text-base md:text-lg text-black mb-3 ${headerNoWrap ? 'whitespace-nowrap' : ''}`,
+                                        children: firstLine
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 255,
+                                        columnNumber: 19
+                                    }, this),
+                                    body && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "body-sm whitespace-pre-line text-black/90",
+                                        children: body
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/RevealCard.tsx",
+                                        lineNumber: 259,
+                                        columnNumber: 21
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/ui/RevealCard.tsx",
+                                lineNumber: 254,
+                                columnNumber: 17
+                            }, this);
+                        })()
+                    }, "back", false, {
+                        fileName: "[project]/components/ui/RevealCard.tsx",
+                        lineNumber: 242,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/components/ui/RevealCard.tsx",
+                    lineNumber: 210,
+                    columnNumber: 7
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/components/ui/RevealCard.tsx",
-                lineNumber: 129,
-                columnNumber: 11
+                lineNumber: 199,
+                columnNumber: 7
             }, this)
-        }, void 0, false, {
-            fileName: "[project]/components/ui/RevealCard.tsx",
-            lineNumber: 65,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
-        fileName: "[project]/components/ui/RevealCard.tsx",
-        lineNumber: 55,
-        columnNumber: 5
-    }, this);
+        ]
+    }, void 0, true);
 }
 }}),
 "[project]/components/sections/PracticeAreas.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
@@ -592,16 +839,14 @@ function PracticeAreas() {
                                 opacity: 0,
                                 y: 20
                             },
-                            whileInView: {
+                            animate: {
                                 opacity: 1,
                                 y: 0
                             },
                             transition: {
-                                duration: 0.6,
-                                delay: index * 0.2
-                            },
-                            viewport: {
-                                once: true
+                                duration: 0.5,
+                                delay: index * 0.1,
+                                ease: 'easeOut'
                             },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$RevealCard$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                 title: area.title,
@@ -610,7 +855,7 @@ function PracticeAreas() {
                                 minHeightClass: "min-h-[340px]"
                             }, void 0, false, {
                                 fileName: "[project]/components/sections/PracticeAreas.tsx",
-                                lineNumber: 46,
+                                lineNumber: 45,
                                 columnNumber: 15
                             }, this)
                         }, area.title, false, {
@@ -720,16 +965,14 @@ function Pillars() {
                                 opacity: 0,
                                 y: 12
                             },
-                            whileInView: {
+                            animate: {
                                 opacity: 1,
                                 y: 0
                             },
-                            viewport: {
-                                once: true
-                            },
                             transition: {
-                                duration: 0.4,
-                                delay: i * 0.1
+                                duration: 0.5,
+                                delay: i * 0.1,
+                                ease: 'easeOut'
                             },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$RevealCard$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                 title: pillar.title,
@@ -740,7 +983,7 @@ function Pillars() {
                                 headerNoWrap: pillar.title === 'Discretion'
                             }, void 0, false, {
                                 fileName: "[project]/components/sections/Pillars.tsx",
-                                lineNumber: 55,
+                                lineNumber: 54,
                                 columnNumber: 15
                             }, this)
                         }, pillar.title, false, {

@@ -193,24 +193,42 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Footer$2
 ;
 const metadata = {
     metadataBase: new URL('https://constructdesignacademy.com'),
-    title: 'Construct - The brand that builds brands.',
-    description: 'Construct is a luxury design studio that builds brands. We specialize in crafting digital flagships, bespoke e-commerce experiences, and immersive product storytelling.',
+    title: {
+        default: 'Construct - The Brand That Builds Brands',
+        template: '%s | Construct'
+    },
+    description: 'Elite design studio crafting luxury brand experiences with architectural precision. We design digital and physical experiences that resonate, move, and endure.',
     keywords: [
-        'luxury design',
+        'luxury design studio',
         'brand development',
-        'web design',
-        'e-commerce',
-        'UX/UI'
+        'UX/UI design',
+        'web design agency',
+        'e-commerce design',
+        'brand strategy',
+        'digital experiences',
+        'luxury branding',
+        'design systems',
+        'Next.js development',
+        'TypeScript',
+        'premium web design'
     ],
     authors: [
         {
-            name: 'Construct'
+            name: 'Construct',
+            url: 'https://constructdesignacademy.com'
         }
     ],
     creator: 'Construct',
+    publisher: 'Construct',
+    viewport: {
+        width: 'device-width',
+        initialScale: 1,
+        maximumScale: 5
+    },
+    category: 'Design & Development',
     openGraph: {
-        title: 'Construct - The brand that builds brands.',
-        description: 'Construct is a luxury design studio that builds brands.',
+        title: 'Construct - The Brand That Builds Brands',
+        description: 'Elite design studio crafting luxury brand experiences with architectural precision. We design digital and physical experiences that resonate, move, and endure.',
         url: 'https://constructdesignacademy.com',
         siteName: 'Construct',
         images: [
@@ -218,7 +236,8 @@ const metadata = {
                 url: '/og-image.png',
                 width: 1200,
                 height: 630,
-                alt: 'Construct - The brand that builds brands.'
+                alt: 'Construct - Elite Design Studio',
+                type: 'image/png'
             }
         ],
         locale: 'en_US',
@@ -226,11 +245,18 @@ const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Construct - The brand that builds brands.',
-        description: 'Construct is a luxury design studio that builds brands.',
+        title: 'Construct - The Brand That Builds Brands',
+        description: 'Elite design studio crafting luxury brand experiences with architectural precision.',
         images: [
             '/og-image.png'
-        ]
+        ],
+        creator: '@construct',
+        site: '@construct'
+    },
+    alternates: {
+        canonical: 'https://constructdesignacademy.com'
+    },
+    verification: {
     },
     robots: {
         index: true,
@@ -247,28 +273,55 @@ function RootLayout({ children }) {
         lang: "en",
         className: `${__TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$inter_e5387405$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"].variable} ${__TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$playfair_display_52987592$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"].variable} ${__TURBOPACK__imported__module__$5b$next$5d2f$internal$2f$font$2f$google$2f$space_grotesk_a18350ce$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"].variable}`,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("body", {
-            className: "bg-bg-primary text-text-base antialiased",
+            className: "bg-bg-primary text-text-base antialiased relative",
             children: [
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Navigation$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "fixed inset-0 pointer-events-none opacity-[0.015]",
+                    style: {
+                        backgroundImage: `radial-gradient(circle at 1px 1px, rgb(194, 163, 118) 1px, transparent 0)`,
+                        backgroundSize: '40px 40px'
+                    }
+                }, void 0, false, {
                     fileName: "[project]/app/layout.tsx",
-                    lineNumber: 73,
+                    lineNumber: 109,
                     columnNumber: 9
                 }, this),
-                children,
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                    href: "#main-content",
+                    className: "sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cta-brass focus:text-bg-primary focus:rounded-md",
+                    children: "Skip to main content"
+                }, void 0, false, {
+                    fileName: "[project]/app/layout.tsx",
+                    lineNumber: 116,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Navigation$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                    fileName: "[project]/app/layout.tsx",
+                    lineNumber: 122,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                    id: "main-content",
+                    children: children
+                }, void 0, false, {
+                    fileName: "[project]/app/layout.tsx",
+                    lineNumber: 123,
+                    columnNumber: 9
+                }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$Footer$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/app/layout.tsx",
-                    lineNumber: 75,
+                    lineNumber: 126,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/layout.tsx",
-            lineNumber: 72,
+            lineNumber: 107,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/layout.tsx",
-        lineNumber: 71,
+        lineNumber: 106,
         columnNumber: 5
     }, this);
 }

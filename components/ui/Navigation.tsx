@@ -1,24 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
-
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/expertise', label: 'Expertise' },
-  { href: '/values', label: 'Values' },
-];
+import { navItems, ctaButton } from '../../config/navigation';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   return (
+    <>
     <header
       id="site-header"
-      className="sticky top-0 z-50 bg-bg-primary/90 backdrop-blur transition-all duration-300"
+      className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur transition-all duration-300"
       style={{
         height: '96px',
       }}
@@ -66,10 +75,10 @@ export default function Navigation() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href={ctaButton.href}
               className="cta-button"
             >
-              Contact
+              {ctaButton.label}
             </Link>
           </div>
 
@@ -87,78 +96,74 @@ export default function Navigation() {
             </svg>
           </button>
         </div>
-
-        {/* Mobile Side Drawer Overlay */}
-        {isOpen && (
-          <div className="md:hidden fixed inset-0 z-[9999]">
-            {/* Backdrop */}
-            <div 
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-              onClick={() => setIsOpen(false)}
-            />
-            
-            {/* Side Drawer */}
-            <div className={clsx(
-              "absolute right-0 top-0 w-64 max-w-[75vw]",
-              "bg-cta-brass",
-              "shadow-2xl transform transition-transform duration-300 ease-in-out",
-              isOpen ? "translate-x-0" : "translate-x-full"
-            )}
-            style={{ height: 'auto', minHeight: '300px' }}>
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-black/20">
-                <div className="flex items-center space-x-3">
-                  <img 
-                    src="/header-icon.png" 
-                    alt="Construct Logo"
-                    className="h-6 w-6 object-contain"
-                  />
-                  <span className="font-serif uppercase tracking-[0.2em] text-xs text-black font-medium">
-                    CONSTRUCT
-                  </span>
-                </div>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="text-black hover:text-black/70 transition-colors p-1"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Navigation Links */}
-              <div className="py-6 px-4 space-y-4">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={clsx(
-                      'block text-base font-medium transition-colors duration-200',
-                      'text-black hover:text-black/70',
-                      pathname === item.href && 'text-black font-semibold'
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                
-                {/* Contact Button */}
-                <div className="pt-3 border-t border-black/20">
-                  <Link
-                    href="/contact"
-                    onClick={() => setIsOpen(false)}
-                    className="block w-full text-center py-2 px-4 bg-black text-cta-brass font-medium text-sm rounded-sm hover:bg-black/90 transition-colors duration-200"
-                  >
-                    Contact
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </header>
+
+    {/* Mobile Fullscreen Menu - Outside header */}
+    {isOpen && (
+      <div className="md:hidden fixed inset-0 z-[100] bg-bg-primary">
+        {/* Close Button - Top Right */}
+        <div className="absolute top-6 right-6 z-10">
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-text-base/60 hover:text-text-base transition-colors p-2"
+            aria-label="Close menu"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Menu Content - Centered */}
+        <div className="flex flex-col items-center justify-center h-full px-8">
+          {/* Logo */}
+          <div className="mb-12">
+            <img 
+              src="/header-icon.png"
+              alt="Construct Logo"
+              className="h-16 w-16 object-contain opacity-40"
+            />
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="space-y-6 text-center">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.href}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className={clsx(
+                    'block font-serif text-3xl transition-colors duration-200',
+                    pathname === item.href 
+                      ? 'text-text-base' 
+                      : 'text-text-base/60 hover:text-text-base'
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+
+          {/* Connect Button */}
+          <div className="mt-12">
+            <Link
+              href={ctaButton.href}
+              onClick={() => setIsOpen(false)}
+              className="inline-block font-label uppercase tracking-widest text-sm border border-cta-brass text-cta-brass px-8 py-3 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-colors"
+            >
+              {ctaButton.label}
+            </Link>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

@@ -39,9 +39,8 @@ export default function PracticeAreas() {
             <motion.div
               key={area.title}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
             >
               <RevealCard
                 title={area.title}

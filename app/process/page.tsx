@@ -9,7 +9,7 @@ const processSteps = [
   {
     category: 'BRAND',
     title: 'Visual identity systems that speak without screaming',
-    description: 'We craft visual languages that communicate luxury through restraint. Every logo, color palette, and typographic choice reinforces your brand\'s position in the premium market.',
+    description: 'We craft visual languages that communicate luxury through restraint. Every logo, color palette, and typographic choice reinforces your brand&apos;s position in the premium market.',
     details: [
       'Brand strategy & positioning',
       'Logo & identity design',
@@ -45,7 +45,7 @@ const processSteps = [
   {
     category: 'DIGITAL',
     title: 'Platforms built for connection and conversion',
-    description: 'Performance-optimized websites and applications that don\'t compromise on aesthetics. Built on modern frameworks with enterprise-grade reliability.',
+    description: 'Performance-optimized websites and applications that don&apos;t compromise on aesthetics. Built on modern frameworks with enterprise-grade reliability.',
     details: [
       'Custom web development',
       'E-commerce platforms',
@@ -79,7 +79,7 @@ export default function ProcessPage() {
             </div>
             
             <p className="text-xl max-w-3xl mx-auto text-ivory-mist/90 leading-relaxed">
-              Our four-discipline approach ensures every touchpoint reinforces your brand's luxury positioning. 
+              Our four-discipline approach ensures every touchpoint reinforces your brand&apos;s luxury positioning. 
               From digital interfaces to physical spaces, we create cohesive experiences that resonate with discerning audiences.
             </p>
           </motion.div>
@@ -142,11 +142,11 @@ export default function ProcessPage() {
             className="space-y-8"
           >
             <h2 className="font-headline text-4xl md:text-5xl tracking-tight">
-              Let's build yours.
+              Let&apos;s build yours.
             </h2>
             <p className="text-xl max-w-2xl mx-auto text-ivory-mist/90 leading-relaxed">
               Ready to create experiences that elevate your brand? 
-              Let's discuss how our integrated approach can transform your business.
+              Let&apos;s discuss how our integrated approach can transform your business.
             </p>
             <Button 
               href="/#contact" 

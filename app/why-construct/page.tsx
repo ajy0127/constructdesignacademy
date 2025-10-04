@@ -87,7 +87,7 @@ export default function WhyConstructPage() {
               Why Construct?
             </h1>
             <p className="text-xl max-w-3xl mx-auto text-ivory-mist/90 leading-relaxed">
-              We don't just build websites. We craft digital experiences for brands that demand excellence. 
+              We don&apos;t just build websites. We craft digital experiences for brands that demand excellence. 
               Our deep expertise in luxury markets, combined with technical mastery, delivers results that resonate with discerning audiences.
             </p>
           </motion.div>
@@ -199,7 +199,7 @@ export default function WhyConstructPage() {
               size="lg"
               className="text-xl px-12 py-5"
             >
-              Let's Discuss Your Project
+              Let&apos;s Discuss Your Project
             </Button>
           </motion.div>
         </Container>

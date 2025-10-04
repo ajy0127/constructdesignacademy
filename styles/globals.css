@@ -25,6 +25,25 @@
     @apply font-label uppercase tracking-widest text-xs text-text-base/70;
   }
   .cta-button {
-    @apply font-label uppercase tracking-widest text-sm border border-cta-brass text-cta-brass px-6 py-3 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-colors inline-block;
+    @apply inline-block font-label uppercase tracking-widest text-sm border-2 border-cta-brass text-cta-brass px-8 py-3 rounded-md hover:bg-cta-brass hover:text-bg-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden;
+  }
+
+  /* Button ripple effect */
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cta-button:active::before {
+    width: 300px;
+    height: 300px;
   }
 }

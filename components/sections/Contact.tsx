@@ -45,8 +45,7 @@ export default function Contact() {
           throw new Error('Form submission failed');
         }
       } else {
-        // Fallback: Log to console if no endpoint configured
-        console.log('Form data (configure NEXT_PUBLIC_FORMSPREE_ID):', data);
+        // Fallback: Simulate submission if no endpoint configured
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       

@@ -26,7 +26,7 @@ export default function Home() {
               
               {/* Supporting text */}
               <p className="text-lg md:text-xl text-text-base/60 font-light max-w-2xl mx-auto leading-relaxed">
-                Let's discuss your vision and craft a brand experience that resonates.
+                Let&apos;s discuss your vision and craft a brand experience that resonates.
               </p>
               
               {/* Premium CTA */}

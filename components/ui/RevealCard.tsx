@@ -38,6 +38,7 @@ export default function RevealCard({
     if (selected) {
       setSelected(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   // Detect hover capability and mobile

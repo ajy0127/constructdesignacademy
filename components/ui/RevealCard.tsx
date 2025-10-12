@@ -108,7 +108,7 @@ export default function RevealCard({
         onClick={handleClick}
         onMouseEnter={() => !isMobile && setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`border p-8 rounded-lg h-full flex flex-col items-center text-center cursor-pointer transition-all duration-200 ${
+        className={`border p-8 rounded-lg h-full flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 ${
           isHovered && !isMobile ? 'bg-cta-brass border-cta-brass text-black' : 'border-text-base/10 text-text-base hover:border-text-base/20'
         } ${minHeightClass} ${className}`}
       >

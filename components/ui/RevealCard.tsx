@@ -108,13 +108,15 @@ export default function RevealCard({
         onClick={handleClick}
         onMouseEnter={() => !isMobile && setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`border p-8 rounded-lg h-full flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 ${
+        className={`relative border p-8 rounded-lg h-full flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 ${
           isHovered && !isMobile ? 'bg-cta-brass border-cta-brass text-black' : 'border-text-base/10 text-text-base hover:border-text-base/20'
         } ${minHeightClass} ${className}`}
       >
-        {/* Icon */}
+        {/* Icon - Hidden on hover */}
         {(iconNode || iconSrc) && (
-          <div className="w-[120px] h-[120px] mb-6 flex items-center justify-center">
+          <div className={`w-[120px] h-[120px] mb-6 flex items-center justify-center transition-opacity duration-200 ${
+            isHovered && !isMobile ? 'opacity-0' : 'opacity-100'
+          }`}>
             {iconNode ? (
               <div className="text-6xl">{iconNode}</div>
             ) : (
@@ -123,14 +125,16 @@ export default function RevealCard({
           </div>
         )}
 
-        {/* Title */}
-        <h3 className="font-serif text-xl">{title}</h3>
+        {/* Title - Hidden on hover */}
+        <h3 className={`font-serif text-xl transition-opacity duration-200 ${
+          isHovered && !isMobile ? 'opacity-0' : 'opacity-100'
+        }`}>{title}</h3>
 
-        {/* Desktop Hover Content */}
+        {/* Desktop Hover Content - Absolutely positioned */}
         {isHovered && !isMobile && (
-          <div className="mt-4 text-sm">
-            <p className="font-serif mb-2">{firstLine}</p>
-            {bodyText && <p className="text-xs opacity-90 line-clamp-3">{bodyText}</p>}
+          <div className="absolute inset-0 p-8 flex flex-col items-center justify-center text-sm">
+            <p className="font-serif text-lg mb-3">{firstLine}</p>
+            {bodyText && <p className="text-xs opacity-90 leading-relaxed">{bodyText}</p>}
           </div>
         )}
       </div>

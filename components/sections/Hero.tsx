@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
@@ -17,36 +18,39 @@ export default function Hero() {
     
     if (!header || !heroWordmark || !heroContent) return;
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      
-      // Simple threshold-based visibility
-      if (scrollY > 50) {
-        heroWordmark.setAttribute('data-hidden', 'true');
-        heroContent.setAttribute('data-visible', 'true');
-        
-        // Fade in header elements
-        if (headerLogo) headerLogo.style.opacity = '1';
-        if (headerWordmark) headerWordmark.style.opacity = '1';
-        if (headerWordmarkMobile) headerWordmarkMobile.style.opacity = '1';
-      } else {
-        heroWordmark.setAttribute('data-hidden', 'false');
-        heroContent.setAttribute('data-visible', 'false');
-        
-        // Fade out header elements
-        if (headerLogo) headerLogo.style.opacity = '0';
-        if (headerWordmark) headerWordmark.style.opacity = '0';
-        if (headerWordmarkMobile) headerWordmarkMobile.style.opacity = '0';
-      }
+    let rafId = 0;
+    let lastScrolled: boolean | null = null;
+
+    const applyState = (scrolled: boolean) => {
+      if (lastScrolled === scrolled) return;
+      lastScrolled = scrolled;
+
+      heroWordmark.setAttribute('data-hidden', scrolled ? 'true' : 'false');
+      heroContent.setAttribute('data-visible', scrolled ? 'true' : 'false');
+
+      if (headerLogo) headerLogo.style.opacity = scrolled ? '1' : '0';
+      if (headerWordmark) headerWordmark.style.opacity = scrolled ? '1' : '0';
+      if (headerWordmarkMobile) headerWordmarkMobile.style.opacity = scrolled ? '1' : '0';
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        applyState(window.scrollY > 0);
+      });
     };
 
     // Initial state
-    handleScroll();
+    onScroll();
     
     // Passive scroll listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -62,10 +66,12 @@ export default function Hero() {
           className="absolute inset-0 flex items-center justify-center select-none pointer-events-none transition-opacity duration-300 ease-out data-[hidden=true]:opacity-0"
           style={{ top: '-20vh', marginTop: '-5vh' }}
         >
-          <img 
-            src="/header-icon.png" 
+          <Image
+            src="/header-icon.png"
             alt="Construct Logo"
-            loading="eager"
+            width={400}
+            height={400}
+            priority
             className="h-[22vh] md:h-[30vw] w-auto max-h-[280px] md:max-h-[400px] object-contain"
           />
         </div>

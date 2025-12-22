@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -23,24 +24,45 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
+  // Close menu on route change (prevents stuck overlay / locked scroll)
+  useEffect(() => {
+    if (isOpen) setIsOpen(false);
+    document.body.style.overflow = 'unset';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  // Close menu on Escape
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen]);
+
   return (
     <>
     <header
       id="site-header"
-      className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur transition-all duration-300"
+      className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur transition-all duration-300 flex items-center"
       style={{
         height: '96px',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between h-full">
           {/* Desktop - Logo + wordmark on left */}
           <Link href="/" className="hidden md:flex items-center h-full space-x-3">
             <div className="relative h-8 w-8 flex items-center justify-center">
-              <img 
-                src="/header-icon.png" 
+              <Image
+                src="/header-icon.png"
                 alt="Construct Logo"
-                className="h-full w-auto absolute transition-opacity duration-300"
+                fill
+                sizes="32px"
+                className="absolute transition-opacity duration-300"
                 style={{
                   opacity: 0,
                   objectFit: 'contain',
@@ -64,7 +86,7 @@ export default function Navigation() {
           <div className="md:hidden w-10" />
 
           {/* Mobile - Centered CONSTRUCT text */}
-          <div className="md:hidden absolute left-1/2 transform -translate-x-1/2">
+          <div className="md:hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <span 
               data-header-wordmark-mobile
               className="font-serif uppercase tracking-[0.2em] text-sm text-text-base transition-opacity duration-300 opacity-0"
@@ -115,7 +137,7 @@ export default function Navigation() {
       </div>
     </header>
 
-    {/* Mobile Fullscreen Menu - Outside header */}
+          {/* Mobile Fullscreen Menu - Outside header */}
     {isOpen && (
       <div className="md:hidden fixed inset-0 z-[100] bg-bg-primary">
         {/* Close Button - Top Right */}
@@ -135,9 +157,11 @@ export default function Navigation() {
         <div className="flex flex-col items-center justify-center h-full px-8">
           {/* Logo */}
           <div className="mb-12">
-            <img 
+            <Image
               src="/header-icon.png"
               alt="Construct Logo"
+              width={64}
+              height={64}
               className="h-16 w-16 object-contain opacity-40"
             />
           </div>

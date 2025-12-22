@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import { Inter, Playfair_Display, Space_Grotesk } from 'next/font/google';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Navigation from '../components/ui/Navigation';
 import Footer from '../components/ui/Footer';
 import GoogleAnalytics from '../components/analytics/GoogleAnalytics';
@@ -47,11 +47,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'Construct', url: 'https://constructdesignacademy.com' }],
   creator: 'Construct',
   publisher: 'Construct',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
   category: 'Design & Development',
   openGraph: {
     title: 'Construct - The Brand That Builds Brands',
@@ -95,6 +90,12 @@ export const metadata: Metadata = {
     shortcut: '/conlogo.png',
     apple: '/conlogo.png',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({

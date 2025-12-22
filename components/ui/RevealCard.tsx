@@ -51,7 +51,10 @@ export default function RevealCard({
     }
   }, [isMobile, isOpen]);
 
-  const handleClick = () => setIsOpen(!isOpen);
+  const handleClick = () => {
+    if (!isMobile) return;
+    setIsOpen(!isOpen);
+  };
   const handleClose = () => setIsOpen(false);
 
   const [firstLine, ...restLines] = description.split('\n');
@@ -108,7 +111,7 @@ export default function RevealCard({
         onClick={handleClick}
         onMouseEnter={() => !isMobile && setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`relative border p-8 rounded-lg h-full flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 ${
+        className={`relative border p-8 rounded-lg h-full flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-200 ${
           isHovered && !isMobile ? 'bg-cta-brass border-cta-brass text-black' : 'border-text-base/10 text-text-base hover:border-text-base/20'
         } ${minHeightClass} ${className}`}
       >
@@ -131,12 +134,14 @@ export default function RevealCard({
         }`}>{title}</h3>
 
         {/* Desktop Hover Content - Absolutely positioned */}
-        {isHovered && !isMobile && (
-          <div className="absolute inset-0 p-8 flex flex-col items-center justify-center text-sm">
-            <p className="font-serif text-lg mb-3">{firstLine}</p>
-            {bodyText && <p className="text-xs opacity-90 leading-relaxed">{bodyText}</p>}
-          </div>
-        )}
+        <div
+          className={`absolute inset-0 p-8 flex flex-col items-center justify-center text-sm transition-opacity duration-200 pointer-events-none ${
+            isHovered && !isMobile ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <p className="font-serif text-lg mb-3">{firstLine}</p>
+          {bodyText && <p className="text-xs opacity-90 leading-relaxed">{bodyText}</p>}
+        </div>
       </div>
     </>
   );

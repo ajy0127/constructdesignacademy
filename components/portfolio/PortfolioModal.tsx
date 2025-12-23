@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
@@ -29,12 +30,17 @@ function toFigmaEmbedUrl(inputUrl: string): string {
 export default function PortfolioModal({
   project,
   onClose,
+  initialView,
 }: {
   project: PortfolioProject;
   onClose: () => void;
+  initialView?: ModalView;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [view, setView] = useState<ModalView>('gallery');
+  const [mediaAspect, setMediaAspect] = useState<number>(16 / 9);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   const prototypeEmbedUrl = useMemo(() => {
     if (!project.figmaEmbedUrl) return '';
@@ -50,8 +56,26 @@ export default function PortfolioModal({
 
   useEffect(() => {
     setActiveIndex(0);
-    setView('gallery');
-  }, [project.id]);
+    setMediaAspect(16 / 9);
+    const requestedView = initialView ?? 'gallery';
+    setView(requestedView === 'prototype' && !hasPrototype ? 'gallery' : requestedView);
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ top: 0 });
+    });
+  }, [hasPrototype, initialView, project.id]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -70,11 +94,12 @@ export default function PortfolioModal({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onClose, project.imageSrcs.length, view]);
 
-  return (
+  const content = (
     <AnimatePresence>
       <motion.div
         key={project.id}
-        className="fixed inset-0 z-[200] flex items-center justify-center px-6 lg:px-8"
+        className="fixed inset-0 z-[9999] flex items-center justify-center px-6 lg:px-8 py-8"
+        style={{ zIndex: 2147483647 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -89,13 +114,13 @@ export default function PortfolioModal({
         <motion.div
           role="dialog"
           aria-modal="true"
-          className="relative w-full max-w-5xl bg-bg-primary border border-text-base/10 rounded-2xl shadow-2xl overflow-hidden"
+          className="relative w-full max-w-5xl max-h-[calc(100vh-4rem)] bg-bg-primary border border-text-base/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col min-h-0"
           initial={{ y: 24, opacity: 0, scale: 0.98 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 24, opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
         >
-          <div className="flex items-start justify-between gap-6 p-6 border-b border-text-base/10">
+          <div className="flex items-start justify-between gap-4 p-4 border-b border-text-base/10">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <h2 className="font-serif text-2xl text-text-base truncate">
@@ -108,48 +133,9 @@ export default function PortfolioModal({
                   </span>
                 )}
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {project.categories.map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center rounded-full border border-text-base/15 px-3 py-1 text-xs uppercase tracking-widest text-text-base/60"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setView('gallery')}
-                  className={clsx(
-                    'font-label uppercase tracking-widest text-xs px-4 py-2 rounded-md border transition-colors',
-                    view === 'gallery'
-                      ? 'border-cta-brass text-cta-brass'
-                      : 'border-text-base/15 text-text-base/60 hover:text-text-base'
-                  )}
-                >
-                  Gallery
-                </button>
-                {hasPrototype && (
-                  <button
-                    type="button"
-                    onClick={() => setView('prototype')}
-                    className={clsx(
-                      'font-label uppercase tracking-widest text-xs px-4 py-2 rounded-md border transition-colors',
-                      view === 'prototype'
-                        ? 'border-cta-brass text-cta-brass'
-                        : 'border-text-base/15 text-text-base/60 hover:text-text-base'
-                    )}
-                  >
-                    Prototype
-                  </button>
-                )}
-              </div>
-
               <button
                 type="button"
                 onClick={onClose}
@@ -168,39 +154,17 @@ export default function PortfolioModal({
             </div>
           </div>
 
-          <div className="p-6">
-            <div className="sm:hidden flex items-center gap-2 mb-4">
-              <button
-                type="button"
-                onClick={() => setView('gallery')}
-                className={clsx(
-                  'flex-1 font-label uppercase tracking-widest text-xs px-4 py-2 rounded-md border transition-colors',
-                  view === 'gallery'
-                    ? 'border-cta-brass text-cta-brass'
-                    : 'border-text-base/15 text-text-base/60 hover:text-text-base'
-                )}
-              >
-                Gallery
-              </button>
-              {hasPrototype && (
-                <button
-                  type="button"
-                  onClick={() => setView('prototype')}
-                  className={clsx(
-                    'flex-1 font-label uppercase tracking-widest text-xs px-4 py-2 rounded-md border transition-colors',
-                    view === 'prototype'
-                      ? 'border-cta-brass text-cta-brass'
-                      : 'border-text-base/15 text-text-base/60 hover:text-text-base'
-                  )}
-                >
-                  Prototype
-                </button>
-              )}
-            </div>
+          <div
+            ref={scrollRef}
+            className="px-6 pt-4 pb-6 overflow-y-auto flex-1 min-h-0 overscroll-contain"
+          >
 
             {view === 'gallery' ? (
               <div>
-                <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary">
+                <div
+                  className="relative w-full rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary"
+                  style={{ aspectRatio: mediaAspect }}
+                >
                   {project.imageSrcs.length > 0 ? (
                     <Image
                       src={project.imageSrcs[safeActiveIndex]}
@@ -208,6 +172,13 @@ export default function PortfolioModal({
                       fill
                       sizes="(max-width: 1024px) 100vw, 900px"
                       className="object-contain"
+                      onLoadingComplete={(img) => {
+                        const w = img.naturalWidth;
+                        const h = img.naturalHeight;
+                        if (!w || !h) return;
+                        const next = w / h;
+                        setMediaAspect((prev) => (Math.abs(prev - next) < 0.01 ? prev : next));
+                      }}
                       priority
                     />
                   ) : (
@@ -248,7 +219,7 @@ export default function PortfolioModal({
                 </div>
 
                 {project.imageSrcs.length > 1 && (
-                  <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+                  <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
                     {project.imageSrcs.map((src, idx) => (
                       <button
                         key={`${src}-${idx}`}
@@ -274,12 +245,12 @@ export default function PortfolioModal({
                   </div>
                 )}
 
-                <div className="mt-4 text-center text-xs uppercase tracking-widest text-text-base/40 font-label">
+                <div className="mt-3 text-center text-xs uppercase tracking-widest text-text-base/40 font-label">
                   Use arrow keys to navigate. Press Esc to close.
                 </div>
               </div>
             ) : (
-              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary">
+              <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary">
                 {prototypeEmbedUrl && !project.comingSoon ? (
                   <iframe
                     title={`${project.title} prototype`}
@@ -299,4 +270,7 @@ export default function PortfolioModal({
       </motion.div>
     </AnimatePresence>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 }

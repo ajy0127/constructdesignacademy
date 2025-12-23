@@ -1,7 +1,8 @@
 export type PortfolioCategory =
   | 'B2B Tax'
   | 'B2B Audit'
-  | 'E-commerce';
+  | 'E-commerce'
+  | 'B2C Services';
 
 export interface PortfolioProject {
   id: string;
@@ -50,6 +51,17 @@ export const portfolioProjects: PortfolioProject[] = [
     thumbnailSrc: '/portfolio/ecommerce-brand-thumb.jpg',
     imageSrcs: [
       '/portfolio/ecommerce-brand-thumb.jpg',
+    ],
+    comingSoon: true,
+  },
+  {
+    id: 'acerlo-app',
+    title: 'Acerlo',
+    year: 2026,
+    categories: ['B2C Services'],
+    thumbnailSrc: '/portfolio/acerlo-brand-thumb.jpg',
+    imageSrcs: [
+      '/portfolio/acerlo-brand-thumb.jpg',
     ],
     comingSoon: true,
   },

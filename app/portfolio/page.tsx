@@ -3,7 +3,7 @@ import Container from '../../components/ui/Container';
 import PortfolioClient from '../../components/portfolio/PortfolioClient';
 
 export const metadata = {
-  title: 'Portfolio',
+  title: 'Products',
   description: 'Selected work and case studies by Construct.',
 };
 
@@ -13,7 +13,7 @@ export default function PortfolioPage() {
       <Container>
         <div className="flex items-center gap-6 mb-6">
           <div className="flex-1 border-t border-text-base/20" />
-          <h1 className="heading-2">Portfolio</h1>
+          <h1 className="heading-2">Products</h1>
           <div className="flex-1 border-t border-text-base/20" />
         </div>
 

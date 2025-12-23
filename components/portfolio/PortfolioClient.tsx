@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -13,14 +13,101 @@ import {
 } from '../../config/portfolio';
 import PortfolioModal from './PortfolioModal';
 
+type PortfolioView = 'gallery' | 'prototype';
+
+const PORTFOLIO_SESSION_KEY = 'portfolio_access_unlocked';
+const PORTFOLIO_TEMP_PASSWORD = 'Jaymes';
+
 export default function PortfolioClient() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategoryFilter>('All');
+  const [activeView, setActiveView] = useState<PortfolioView>('gallery');
   const [selected, setSelected] = useState<PortfolioProject | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      setIsUnlocked(sessionStorage.getItem(PORTFOLIO_SESSION_KEY) === '1');
+    } catch {
+      setIsUnlocked(false);
+    }
+  }, []);
 
   const filtered = useMemo(() => {
-    if (activeCategory === 'All') return portfolioProjects;
-    return portfolioProjects.filter((p) => p.categories.includes(activeCategory));
-  }, [activeCategory]);
+    const hasPrototype = (p: PortfolioProject) => Boolean(p.figmaEmbedUrl?.trim()) && !p.comingSoon;
+
+    const categoryFiltered =
+      activeCategory === 'All'
+        ? portfolioProjects
+        : portfolioProjects.filter((p) => p.categories.includes(activeCategory));
+
+    if (activeView === 'prototype') {
+      return categoryFiltered.filter(hasPrototype);
+    }
+
+    return categoryFiltered;
+  }, [activeCategory, activeView]);
+
+  if (!mounted) return null;
+
+  if (!isUnlocked) {
+    return (
+      <div className="max-w-xl mx-auto">
+        <div className="rounded-2xl border border-text-base/10 bg-bg-primary/60 backdrop-blur p-8">
+          <div className="font-serif text-2xl text-text-base">Enter password</div>
+          <div className="mt-2 text-text-base/70">
+            This section is protected for client review.
+          </div>
+
+          <form
+            className="mt-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const next = password.trim();
+
+              if (next !== PORTFOLIO_TEMP_PASSWORD) {
+                setError('Incorrect password.');
+                return;
+              }
+
+              try {
+                sessionStorage.setItem(PORTFOLIO_SESSION_KEY, '1');
+              } catch {
+                // ignore
+              }
+
+              setError('');
+              setIsUnlocked(true);
+            }}
+          >
+            <label className="block text-xs uppercase tracking-widest text-text-base/60 font-label">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
+              className="mt-2 w-full rounded-md border border-text-base/15 bg-bg-primary px-4 py-3 text-text-base outline-none focus:border-cta-brass"
+              autoComplete="current-password"
+              autoFocus
+            />
+
+            {error && <div className="mt-3 text-sm text-red-400">{error}</div>}
+
+            <button type="submit" className="cta-button mt-6 w-full text-center">
+              Continue
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -40,6 +127,35 @@ export default function PortfolioClient() {
             {cat}
           </button>
         ))}
+      </div>
+
+      <div className="max-w-4xl mx-auto flex items-center gap-4 mb-12">
+        <button
+          type="button"
+          onClick={() => setActiveView('gallery')}
+          className={clsx(
+            'cta-button flex-1 text-center',
+            activeView === 'gallery'
+              ? 'bg-cta-brass text-bg-primary'
+              : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+          )}
+          aria-pressed={activeView === 'gallery'}
+        >
+          Gallery
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveView('prototype')}
+          className={clsx(
+            'cta-button flex-1 text-center',
+            activeView === 'prototype'
+              ? 'bg-cta-brass text-bg-primary'
+              : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+          )}
+          aria-pressed={activeView === 'prototype'}
+        >
+          Prototype
+        </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -126,6 +242,7 @@ export default function PortfolioClient() {
         <PortfolioModal
           project={selected}
           onClose={() => setSelected(null)}
+          initialView={activeView}
         />
       )}
     </div>

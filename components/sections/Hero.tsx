@@ -76,14 +76,22 @@ export default function Hero() {
           />
         </div>
 
-        <Container className="text-center px-6 md:px-8">
+        <Container className="text-center">
           <div
             id="hero-content"
             className="space-y-8 opacity-0 transition-opacity duration-300 ease-out data-[visible=true]:opacity-100 pointer-events-none data-[visible=true]:pointer-events-auto"
           >
             <blockquote className="space-y-3">
-              <h1 className="font-serif text-[1.75rem] sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base px-4 whitespace-nowrap">
-                &ldquo;The brand that builds brands.&rdquo;
+              <h1 className="mx-auto font-serif text-[1.75rem] sm:text-5xl md:text-7xl lg:text-8xl tracking-tighter leading-none text-text-base whitespace-normal lg:whitespace-nowrap">
+                <span className="relative inline-block">
+                  <span aria-hidden className="absolute right-full pr-[0.12em]">
+                    &ldquo;
+                  </span>
+                  <span>The brand that builds brands.</span>
+                  <span aria-hidden className="absolute left-full pl-[0.12em]">
+                    &rdquo;
+                  </span>
+                </span>
               </h1>
               <cite className="block font-sans text-base md:text-lg text-text-base/60 not-italic text-center">
                 <Link href="https://www.linkedin.com/in/ajyawn/" target="_blank" rel="noopener noreferrer" className="hover:text-text-base transition-colors">AJ Yawn</Link>, Best Selling Author
@@ -94,15 +102,15 @@ export default function Hero() {
             <div className="w-16 h-px bg-cta-brass mx-auto my-12" />
 
             {/* Hero paragraph */}
-            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed">
               We design digital and physical experiences with architectural precision and cultural taste.
             </p>
 
-            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed">
               Every form serves a feeling, and every detail is intentional.
             </p>
 
-            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base md:text-lg text-text-base/70 max-w-3xl mx-auto leading-relaxed">
               From identity systems to product UX, we help visionary teams build brands that resonate, move, and endure.
             </p>
 

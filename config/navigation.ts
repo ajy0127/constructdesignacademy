@@ -2,7 +2,7 @@ export const navItems = [
   { href: '/', label: 'Home' },
   { href: '/expertise', label: 'Expertise' },
   { href: '/values', label: 'Values' },
-  { href: '/portfolio', label: 'Products' },
+  { href: '/products', label: 'Products' },
 ] as const;
 
 export const ctaButton = {

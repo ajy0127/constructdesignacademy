@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import type { PortfolioProject } from '../../config/portfolio';
+import PrototypeRenderer from './prototypes/PrototypeRenderer';
 
 type ModalView = 'gallery' | 'prototype';
 
@@ -47,7 +48,8 @@ export default function PortfolioModal({
     return toFigmaEmbedUrl(project.figmaEmbedUrl);
   }, [project.figmaEmbedUrl]);
 
-  const hasPrototype = Boolean(prototypeEmbedUrl) && !project.comingSoon;
+  const hasPrototype =
+    (Boolean(project.prototypeId?.trim()) || Boolean(prototypeEmbedUrl)) && !project.comingSoon;
 
   const safeActiveIndex = useMemo(() => {
     if (project.imageSrcs.length === 0) return 0;
@@ -159,6 +161,24 @@ export default function PortfolioModal({
             className="px-6 pt-4 pb-6 overflow-y-auto flex-1 min-h-0 overscroll-contain"
           >
 
+            {(project.description || (project.caseStudyBullets && project.caseStudyBullets.length > 0)) && (
+              <div className="mb-4">
+                {project.description && (
+                  <p className="text-sm text-text-base/70 leading-relaxed">
+                    {project.description}
+                  </p>
+                )}
+
+                {project.caseStudyBullets && project.caseStudyBullets.length > 0 && (
+                  <ul className="mt-3 space-y-2 pl-5 list-disc text-sm text-text-base/70">
+                    {project.caseStudyBullets.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
             {view === 'gallery' ? (
               <div>
                 <div
@@ -251,7 +271,9 @@ export default function PortfolioModal({
               </div>
             ) : (
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary">
-                {prototypeEmbedUrl && !project.comingSoon ? (
+                {!project.comingSoon && project.prototypeId ? (
+                  <PrototypeRenderer prototypeId={project.prototypeId} />
+                ) : prototypeEmbedUrl && !project.comingSoon ? (
                   <iframe
                     title={`${project.title} prototype`}
                     src={prototypeEmbedUrl}
@@ -260,7 +282,7 @@ export default function PortfolioModal({
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-text-base/50">
-                    {project.comingSoon ? 'Prototype coming soon.' : 'No prototype link set.'}
+                    {project.comingSoon ? 'Prototype coming soon.' : 'No prototype available.'}
                   </div>
                 )}
               </div>

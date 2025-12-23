@@ -37,7 +37,8 @@ export default function PortfolioClient() {
   }, []);
 
   const filtered = useMemo(() => {
-    const hasPrototype = (p: PortfolioProject) => Boolean(p.figmaEmbedUrl?.trim()) && !p.comingSoon;
+    const hasPrototype = (p: PortfolioProject) =>
+      (Boolean(p.prototypeId?.trim()) || Boolean(p.figmaEmbedUrl?.trim())) && !p.comingSoon;
 
     const categoryFiltered =
       activeCategory === 'All'

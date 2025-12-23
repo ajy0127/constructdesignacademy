@@ -11,8 +11,11 @@ export interface PortfolioProject {
   categories: PortfolioCategory[];
   thumbnailSrc: string;
   imageSrcs: string[];
+  prototypeId?: string;
   figmaEmbedUrl?: string;
   comingSoon?: boolean;
+  description?: string;
+  caseStudyBullets?: string[];
 }
 
 export const portfolioProjects: PortfolioProject[] = [
@@ -21,26 +24,39 @@ export const portfolioProjects: PortfolioProject[] = [
     title: 'B2B Tax',
     year: 2025,
     categories: ['B2B Tax'],
-    thumbnailSrc: '/portfolio/b2b-tax-thumb.jpg',
-    imageSrcs: [
-      '/portfolio/b2b-tax-01.jpg',
-      '/portfolio/b2b-tax-02.jpg',
-      '/portfolio/b2b-tax-03.jpg',
-      '/portfolio/b2b-tax-04.jpg',
+    thumbnailSrc: '/products/b2b-tax-thumb.jpg',
+    prototypeId: 'b2b-tax',
+    description:
+      'A B2B tax experience focused on clarity, speed, and confidence—streamlining complex flows into guided steps and actionable summaries.',
+    caseStudyBullets: [
+      'Simplified navigation across entities, periods, and filings.',
+      'Designed scalable UI patterns for tables, review states, and alerts.',
+      'Improved information hierarchy for faster decision-making.',
     ],
-    figmaEmbedUrl:
-      'https://www.figma.com/make/p9c2fmymgqloOfPSTGkBIM/Recreate-Design-Identically?fullscreen=1&t=0zW2UhJ25V082EwQ-1',
+    imageSrcs: [
+      '/products/b2b-tax-01.jpg',
+      '/products/b2b-tax-02.jpg',
+      '/products/b2b-tax-03.jpg',
+      '/products/b2b-tax-04.jpg',
+    ],
   },
   {
     id: 'b2b-audit',
     title: 'B2B Audit',
     year: 2025,
     categories: ['B2B Audit'],
-    thumbnailSrc: '/portfolio/b2b-audit-thumb.jpg',
+    thumbnailSrc: '/products/b2b-audit-thumb.jpg',
+    description:
+      'A structured audit workflow that reduces cognitive load—bringing status, evidence, and next steps into a single cohesive interface.',
+    caseStudyBullets: [
+      'Created a repeatable audit flow from intake to resolution.',
+      'Standardized components for evidence, notes, and activity history.',
+      'Designed clear states for progress, blockers, and approvals.',
+    ],
     imageSrcs: [
-      '/portfolio/b2b-audit-01.jpg',
-      '/portfolio/b2b-audit-02.jpg',
-      '/portfolio/b2b-audit-03.jpg',
+      '/products/b2b-audit-01.jpg',
+      '/products/b2b-audit-02.jpg',
+      '/products/b2b-audit-03.jpg',
     ],
   },
   {
@@ -48,9 +64,9 @@ export const portfolioProjects: PortfolioProject[] = [
     title: 'Luxury Fashion E-commerce',
     year: 2026,
     categories: ['E-commerce'],
-    thumbnailSrc: '/portfolio/ecommerce-brand-thumb.jpg',
+    thumbnailSrc: '/products/ecommerce-brand-thumb.jpg',
     imageSrcs: [
-      '/portfolio/ecommerce-brand-thumb.jpg',
+      '/products/ecommerce-brand-thumb.jpg',
     ],
     comingSoon: true,
   },
@@ -59,9 +75,9 @@ export const portfolioProjects: PortfolioProject[] = [
     title: 'Acerlo',
     year: 2026,
     categories: ['B2C Services'],
-    thumbnailSrc: '/portfolio/acerlo-brand-thumb.jpg',
+    thumbnailSrc: '/products/acerlo-brand-thumb.jpg',
     imageSrcs: [
-      '/portfolio/acerlo-brand-thumb.jpg',
+      '/products/acerlo-brand-thumb.jpg',
     ],
     comingSoon: true,
   },

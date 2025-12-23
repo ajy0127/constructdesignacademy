@@ -365,8 +365,8 @@ export default function TaxAdvantageTaxPrototype() {
   );
 
   return (
-    <div className={clsx(roboto.className, 'absolute inset-0 bg-[#f7f7f7] text-[#111827]')}>
-      <div className="h-full w-full flex flex-col">
+    <div className={clsx(roboto.className, 'h-full w-full bg-[#f7f7f7] text-[#111827] overflow-auto')}>
+      <div className="min-h-full min-w-[980px] flex flex-col">
         <div className="h-12 bg-white border-b border-[#ececec] flex items-center px-4">
           <div className="flex items-center gap-3">
             <button type="button" className="text-slate-600 hover:text-slate-800">

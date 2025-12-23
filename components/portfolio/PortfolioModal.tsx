@@ -105,18 +105,10 @@ export default function PortfolioModal({
 
   const isFullscreen = fullscreenView !== null;
 
-  const content = (
-    <AnimatePresence>
-      <motion.div
-        key={project.id}
-        className="fixed inset-0 z-[9999] flex items-center justify-center px-6 lg:px-8 py-8"
-        style={{ zIndex: 2147483647 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {isFullscreen && (
-          <div className="fixed inset-0 z-[10000] bg-black">
+  const fullscreenOverlay =
+    mounted && isFullscreen
+      ? createPortal(
+          <div className="fixed inset-0 bg-black" style={{ zIndex: 2147483647 }}>
             <button
               type="button"
               aria-label="Exit full screen"
@@ -180,7 +172,7 @@ export default function PortfolioModal({
                   </div>
                 </div>
               ) : (
-                <div className="relative h-full w-full bg-bg-primary rounded-xl overflow-hidden">
+                <div className="relative h-full w-full bg-bg-primary overflow-auto">
                   {!project.comingSoon && project.prototypeId ? (
                     <PrototypeRenderer prototypeId={project.prototypeId} />
                   ) : prototypeEmbedUrl && !project.comingSoon ? (
@@ -198,9 +190,21 @@ export default function PortfolioModal({
                 </div>
               )}
             </div>
-          </div>
-        )}
+          </div>,
+          document.body
+        )
+      : null;
 
+  const content = (
+    <AnimatePresence>
+      <motion.div
+        key={project.id}
+        className="fixed inset-0 z-[9999] flex items-center justify-center px-6 lg:px-8 py-8"
+        style={{ zIndex: 2147483647 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <button
           type="button"
           aria-label="Close modal"
@@ -385,7 +389,7 @@ export default function PortfolioModal({
                 </div>
               </div>
             ) : (
-              <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary">
+              <div className="relative w-full h-[70vh] lg:h-auto lg:aspect-[16/9] rounded-xl overflow-auto border border-text-base/10 bg-bg-primary">
                 {hasPrototype && (
                   <div className="absolute top-3 right-3 z-10 lg:hidden">
                     <button
@@ -429,5 +433,11 @@ export default function PortfolioModal({
   );
 
   if (!mounted) return null;
-  return createPortal(content, document.body);
+  return createPortal(
+    <>
+      {content}
+      {fullscreenOverlay}
+    </>,
+    document.body
+  );
 }

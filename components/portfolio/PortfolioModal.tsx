@@ -8,7 +8,9 @@ import clsx from 'clsx';
 import type { PortfolioProject } from '../../config/portfolio';
 import PrototypeRenderer from './prototypes/PrototypeRenderer';
 
-type ModalView = 'gallery' | 'prototype';
+type ModalView = 'gallery' | 'prototype' | 'caseStudy';
+
+type FullscreenView = 'gallery' | 'prototype';
 
 function toFigmaEmbedUrl(inputUrl: string): string {
   const url = inputUrl.trim();
@@ -40,7 +42,7 @@ export default function PortfolioModal({
   const [activeIndex, setActiveIndex] = useState(0);
   const [view, setView] = useState<ModalView>('gallery');
   const [mediaAspect, setMediaAspect] = useState<number>(16 / 9);
-  const [fullscreenView, setFullscreenView] = useState<ModalView | null>(null);
+  const [fullscreenView, setFullscreenView] = useState<FullscreenView | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -52,6 +54,8 @@ export default function PortfolioModal({
   const hasPrototype =
     (Boolean(project.prototypeId?.trim()) || Boolean(prototypeEmbedUrl)) && !project.comingSoon;
 
+  const hasCaseStudy = Boolean(project.caseStudy) || Boolean(project.description) || Boolean(project.caseStudyBullets?.length);
+
   const safeActiveIndex = useMemo(() => {
     if (project.imageSrcs.length === 0) return 0;
     return Math.min(Math.max(activeIndex, 0), project.imageSrcs.length - 1);
@@ -61,11 +65,17 @@ export default function PortfolioModal({
     setActiveIndex(0);
     setMediaAspect(16 / 9);
     const requestedView = initialView ?? 'gallery';
-    setView(requestedView === 'prototype' && !hasPrototype ? 'gallery' : requestedView);
+    if (requestedView === 'prototype' && !hasPrototype) {
+      setView('gallery');
+    } else if (requestedView === 'caseStudy' && !hasCaseStudy) {
+      setView('gallery');
+    } else {
+      setView(requestedView);
+    }
     requestAnimationFrame(() => {
       scrollRef.current?.scrollTo({ top: 0 });
     });
-  }, [hasPrototype, initialView, project.id]);
+  }, [hasCaseStudy, hasPrototype, initialView, project.id]);
 
   useEffect(() => {
     setMounted(true);
@@ -260,7 +270,56 @@ export default function PortfolioModal({
             className="px-6 pt-4 pb-6 overflow-y-auto flex-1 min-h-0 overscroll-contain"
           >
 
-            {(project.description || (project.caseStudyBullets && project.caseStudyBullets.length > 0)) && (
+            <div className="mb-6 flex items-center gap-3">
+              {hasCaseStudy && (
+                <button
+                  type="button"
+                  onClick={() => setView('caseStudy')}
+                  className={clsx(
+                    'cta-button flex-1 text-center',
+                    view === 'caseStudy'
+                      ? 'bg-cta-brass text-bg-primary'
+                      : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+                  )}
+                  aria-pressed={view === 'caseStudy'}
+                >
+                  Case Study
+                </button>
+              )}
+
+              {hasPrototype && (
+                <button
+                  type="button"
+                  onClick={() => setView('prototype')}
+                  className={clsx(
+                    'cta-button flex-1 text-center',
+                    view === 'prototype'
+                      ? 'bg-cta-brass text-bg-primary'
+                      : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+                  )}
+                  aria-pressed={view === 'prototype'}
+                >
+                  Prototype
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setView('gallery')}
+                className={clsx(
+                  'cta-button flex-1 text-center',
+                  view === 'gallery'
+                    ? 'bg-cta-brass text-bg-primary'
+                    : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+                )}
+                aria-pressed={view === 'gallery'}
+              >
+                Gallery
+              </button>
+            </div>
+
+            {view !== 'caseStudy' &&
+              (project.description || (project.caseStudyBullets && project.caseStudyBullets.length > 0)) && (
               <div className="mb-4">
                 {project.description && (
                   <p className="text-sm text-text-base/70 leading-relaxed">
@@ -278,7 +337,82 @@ export default function PortfolioModal({
               </div>
             )}
 
-            {view === 'gallery' ? (
+            {view === 'caseStudy' ? (
+              <div className="space-y-8">
+                {(project.description || (project.caseStudyBullets && project.caseStudyBullets.length > 0)) && (
+                  <div className="rounded-2xl border border-text-base/10 bg-bg-primary/60 backdrop-blur p-6">
+                    {project.description && (
+                      <div className="text-base text-text-base/80 leading-relaxed">
+                        {project.description}
+                      </div>
+                    )}
+                    {project.caseStudyBullets && project.caseStudyBullets.length > 0 && (
+                      <ul className="mt-4 space-y-2 pl-5 list-disc text-sm text-text-base/70">
+                        {project.caseStudyBullets.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+
+                {project.caseStudy ? (
+                  <div className="grid gap-6">
+                    {(project.caseStudy.role || project.caseStudy.timeline || (project.caseStudy.tools && project.caseStudy.tools.length > 0)) && (
+                      <div className="rounded-2xl border border-text-base/10 bg-bg-primary p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div>
+                            <div className="text-xs uppercase tracking-widest text-text-base/40 font-label">Role</div>
+                            <div className="mt-2 text-sm text-text-base/80">{project.caseStudy.role ?? '—'}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-widest text-text-base/40 font-label">Timeline</div>
+                            <div className="mt-2 text-sm text-text-base/80">{project.caseStudy.timeline ?? '—'}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-widest text-text-base/40 font-label">Tools</div>
+                            <div className="mt-2 text-sm text-text-base/80">
+                              {project.caseStudy.tools && project.caseStudy.tools.length > 0
+                                ? project.caseStudy.tools.join(', ')
+                                : '—'}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {project.caseStudy.sections.map((section) => (
+                      <div
+                        key={section.title}
+                        className="rounded-2xl border border-text-base/10 bg-bg-primary p-6"
+                      >
+                        <div className="flex items-baseline justify-between gap-6">
+                          <div className="font-serif text-xl text-text-base">{section.title}</div>
+                        </div>
+
+                        {section.description && (
+                          <div className="mt-3 text-sm text-text-base/70 leading-relaxed">
+                            {section.description}
+                          </div>
+                        )}
+
+                        {section.bullets && section.bullets.length > 0 && (
+                          <ul className="mt-4 space-y-2 pl-5 list-disc text-sm text-text-base/70">
+                            {section.bullets.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-text-base/10 bg-bg-primary p-6 text-text-base/60">
+                    Case study coming soon.
+                  </div>
+                )}
+              </div>
+            ) : view === 'gallery' ? (
               <div>
                 <div
                   className="relative w-full rounded-xl overflow-hidden border border-text-base/10 bg-bg-primary"

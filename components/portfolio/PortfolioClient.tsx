@@ -13,15 +13,15 @@ import {
 } from '../../config/portfolio';
 import PortfolioModal from './PortfolioModal';
 
-type PortfolioView = 'gallery' | 'prototype';
+type ModalView = 'gallery' | 'prototype' | 'caseStudy';
 
 const PORTFOLIO_SESSION_KEY = 'portfolio_access_unlocked';
 const PORTFOLIO_TEMP_PASSWORD = 'Jaymes';
 
 export default function PortfolioClient() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategoryFilter>('All');
-  const [activeView, setActiveView] = useState<PortfolioView>('gallery');
   const [selected, setSelected] = useState<PortfolioProject | null>(null);
+  const [modalInitialView, setModalInitialView] = useState<ModalView>('caseStudy');
   const [mounted, setMounted] = useState(false);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [password, setPassword] = useState('');
@@ -37,20 +37,10 @@ export default function PortfolioClient() {
   }, []);
 
   const filtered = useMemo(() => {
-    const hasPrototype = (p: PortfolioProject) =>
-      (Boolean(p.prototypeId?.trim()) || Boolean(p.figmaEmbedUrl?.trim())) && !p.comingSoon;
-
-    const categoryFiltered =
-      activeCategory === 'All'
-        ? portfolioProjects
-        : portfolioProjects.filter((p) => p.categories.includes(activeCategory));
-
-    if (activeView === 'prototype') {
-      return categoryFiltered.filter(hasPrototype);
-    }
-
-    return categoryFiltered;
-  }, [activeCategory, activeView]);
+    return activeCategory === 'All'
+      ? portfolioProjects
+      : portfolioProjects.filter((p) => p.categories.includes(activeCategory));
+  }, [activeCategory]);
 
   if (!mounted) return null;
 
@@ -130,43 +120,25 @@ export default function PortfolioClient() {
         ))}
       </div>
 
-      <div className="max-w-4xl mx-auto flex items-center gap-4 mb-12">
-        <button
-          type="button"
-          onClick={() => setActiveView('gallery')}
-          className={clsx(
-            'cta-button flex-1 text-center',
-            activeView === 'gallery'
-              ? 'bg-cta-brass text-bg-primary'
-              : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
-          )}
-          aria-pressed={activeView === 'gallery'}
-        >
-          Gallery
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveView('prototype')}
-          className={clsx(
-            'cta-button flex-1 text-center',
-            activeView === 'prototype'
-              ? 'bg-cta-brass text-bg-primary'
-              : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
-          )}
-          aria-pressed={activeView === 'prototype'}
-        >
-          Prototype
-        </button>
-      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {filtered.map((project, index) => (
-          <motion.button
+          <motion.div
             key={project.id}
-            type="button"
             onClick={() => {
               if (project.comingSoon) return;
+              setModalInitialView('caseStudy');
               setSelected(project);
+            }}
+            role={project.comingSoon ? undefined : 'button'}
+            tabIndex={project.comingSoon ? undefined : 0}
+            onKeyDown={(e) => {
+              if (project.comingSoon) return;
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setModalInitialView('caseStudy');
+                setSelected(project);
+              }
             }}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -229,13 +201,14 @@ export default function PortfolioClient() {
               <div className="mt-1 text-xs uppercase tracking-widest text-text-base/40 font-label">
                 {project.categories.join(' · ')}
               </div>
+
               {project.comingSoon && (
                 <div className="mt-2 text-xs uppercase tracking-widest text-text-base/50 font-label">
                   Coming soon
                 </div>
               )}
             </div>
-          </motion.button>
+          </motion.div>
         ))}
       </div>
 
@@ -243,7 +216,7 @@ export default function PortfolioClient() {
         <PortfolioModal
           project={selected}
           onClose={() => setSelected(null)}
-          initialView={activeView}
+          initialView={modalInitialView}
         />
       )}
     </div>

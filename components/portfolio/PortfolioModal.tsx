@@ -270,13 +270,13 @@ export default function PortfolioModal({
             className="px-6 pt-4 pb-6 overflow-y-auto flex-1 min-h-0 overscroll-contain"
           >
 
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-6 flex items-stretch gap-2">
               {hasCaseStudy && (
                 <button
                   type="button"
                   onClick={() => setView('caseStudy')}
                   className={clsx(
-                    'cta-button flex-1 text-center',
+                    'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
                     view === 'caseStudy'
                       ? 'bg-cta-brass text-bg-primary'
                       : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
@@ -287,12 +287,26 @@ export default function PortfolioModal({
                 </button>
               )}
 
+              <button
+                type="button"
+                onClick={() => setView('gallery')}
+                className={clsx(
+                  'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
+                  view === 'gallery'
+                    ? 'bg-cta-brass text-bg-primary'
+                    : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
+                )}
+                aria-pressed={view === 'gallery'}
+              >
+                Gallery
+              </button>
+
               {hasPrototype && (
                 <button
                   type="button"
                   onClick={() => setView('prototype')}
                   className={clsx(
-                    'cta-button flex-1 text-center',
+                    'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
                     view === 'prototype'
                       ? 'bg-cta-brass text-bg-primary'
                       : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
@@ -302,20 +316,6 @@ export default function PortfolioModal({
                   Prototype
                 </button>
               )}
-
-              <button
-                type="button"
-                onClick={() => setView('gallery')}
-                className={clsx(
-                  'cta-button flex-1 text-center',
-                  view === 'gallery'
-                    ? 'bg-cta-brass text-bg-primary'
-                    : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
-                )}
-                aria-pressed={view === 'gallery'}
-              >
-                Gallery
-              </button>
             </div>
 
             {view !== 'caseStudy' &&

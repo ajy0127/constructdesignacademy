@@ -29,6 +29,7 @@ export default function PortfolioClient() {
 
   useEffect(() => {
     setMounted(true);
+    window.scrollTo(0, 0);
     try {
       setIsUnlocked(sessionStorage.getItem(PORTFOLIO_SESSION_KEY) === '1');
     } catch {

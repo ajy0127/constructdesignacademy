@@ -276,7 +276,7 @@ export default function PortfolioModal({
                   type="button"
                   onClick={() => setView('caseStudy')}
                   className={clsx(
-                    'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
+                    'cta-button flex-1 text-center whitespace-nowrap text-[10px] sm:text-sm px-2 sm:px-8 py-2 sm:py-3',
                     view === 'caseStudy'
                       ? 'bg-cta-brass text-bg-primary'
                       : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
@@ -291,7 +291,7 @@ export default function PortfolioModal({
                 type="button"
                 onClick={() => setView('gallery')}
                 className={clsx(
-                  'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
+                  'cta-button flex-1 text-center whitespace-nowrap text-[10px] sm:text-sm px-2 sm:px-8 py-2 sm:py-3',
                   view === 'gallery'
                     ? 'bg-cta-brass text-bg-primary'
                     : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'
@@ -306,7 +306,7 @@ export default function PortfolioModal({
                   type="button"
                   onClick={() => setView('prototype')}
                   className={clsx(
-                    'cta-button flex-1 text-center whitespace-nowrap text-xs sm:text-sm',
+                    'cta-button flex-1 text-center whitespace-nowrap text-[10px] sm:text-sm px-2 sm:px-8 py-2 sm:py-3',
                     view === 'prototype'
                       ? 'bg-cta-brass text-bg-primary'
                       : 'border-text-base/15 text-text-base/60 hover:border-cta-brass'

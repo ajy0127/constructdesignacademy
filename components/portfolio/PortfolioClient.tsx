@@ -29,7 +29,6 @@ export default function PortfolioClient() {
 
   useEffect(() => {
     setMounted(true);
-    window.scrollTo(0, 0);
     try {
       setIsUnlocked(sessionStorage.getItem(PORTFOLIO_SESSION_KEY) === '1');
     } catch {
@@ -38,9 +37,26 @@ export default function PortfolioClient() {
   }, []);
 
   const filtered = useMemo(() => {
-    return activeCategory === 'All'
-      ? portfolioProjects
-      : portfolioProjects.filter((p) => p.categories.includes(activeCategory));
+    if (activeCategory === 'All') return portfolioProjects;
+    
+    // Map simplified categories to actual project categories
+    if (activeCategory === 'B2B') {
+      return portfolioProjects.filter((p) => 
+        p.categories.some(cat => cat === 'B2B Tax' || cat === 'B2B Audit')
+      );
+    }
+    if (activeCategory === 'B2C') {
+      return portfolioProjects.filter((p) => 
+        p.categories.includes('B2C Services')
+      );
+    }
+    if (activeCategory === 'E-commerce') {
+      return portfolioProjects.filter((p) => 
+        p.categories.includes('E-commerce')
+      );
+    }
+    
+    return portfolioProjects;
   }, [activeCategory]);
 
   if (!mounted) return null;
@@ -104,21 +120,31 @@ export default function PortfolioClient() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
-        {portfolioCategories.map((cat) => (
-          <button
-            key={cat}
-            type="button"
-            onClick={() => setActiveCategory(cat)}
-            className={clsx(
-              'font-label uppercase tracking-widest text-xs px-4 py-2 rounded-full border transition-colors',
-              activeCategory === cat
-                ? 'border-cta-brass text-cta-brass'
-                : 'border-text-base/15 text-text-base/60 hover:text-text-base'
-            )}
-          >
-            {cat}
-          </button>
-        ))}
+        {portfolioCategories.map((cat) => {
+          const getLabel = (category: string) => {
+            if (category === 'All') return 'ALL';
+            if (category === 'B2B Tax' || category === 'B2B Audit') return 'B2B';
+            if (category === 'B2C Services') return 'B2C';
+            if (category === 'E-commerce') return 'E-COMMERCE';
+            return category;
+          };
+
+          return (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActiveCategory(cat)}
+              className={clsx(
+                'font-label uppercase tracking-widest text-xs px-4 py-2 rounded-full border transition-colors',
+                activeCategory === cat
+                  ? 'border-cta-brass text-cta-brass'
+                  : 'border-text-base/15 text-text-base/60 hover:text-text-base'
+              )}
+            >
+              {getLabel(cat)}
+            </button>
+          );
+        })}
       </div>
 
 

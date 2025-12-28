@@ -165,8 +165,8 @@ function Icon({ name, className }: { name: 'menu' | 'bell' | 'help' | 'user' | '
 
 export default function TaxAdvantageTaxPrototype() {
   const [view, setView] = useState<View>('requests');
-  const [sidebarEntity, setSidebarEntity] = useState<string>('All');
-  const [topEntity, setTopEntity] = useState<string>('All Entities');
+  const [sidebarEntity, setSidebarEntity] = useState<string>('Acme Corp');
+  const [topEntity, setTopEntity] = useState<string>('Acme Corp');
   const [search, setSearch] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<RequestStatus | 'All'>('All');
@@ -437,8 +437,9 @@ export default function TaxAdvantageTaxPrototype() {
                         </div>
                         {e !== 'All' && (
                           <div className="mt-2 h-1.5 rounded-full bg-[#e5e7eb] overflow-hidden">
-                            <div className="h-full w-[38%] bg-[#f59e0b]" />
-                            <div className="-mt-1.5 h-1.5 w-[62%] bg-[#84cc16]" />
+                            <div className="h-full w-[15%] bg-[#dc2626]" />
+                            <div className="-mt-1.5 h-1.5 w-[23%] bg-[#d97706]" />
+                            <div className="-mt-1.5 h-1.5 w-[62%] bg-[#059669]" />
                           </div>
                         )}
                       </button>

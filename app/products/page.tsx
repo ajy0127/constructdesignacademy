@@ -1,6 +1,7 @@
 import Section from '../../components/ui/Section';
 import Container from '../../components/ui/Container';
 import PortfolioClient from '../../components/portfolio/PortfolioClient';
+import TestimonialCarousel from '../../components/testimonials/TestimonialCarousel';
 
 export const metadata = {
   title: 'Products',
@@ -20,6 +21,8 @@ export default function ProductsPage() {
         <p className="text-center text-lg md:text-xl text-text-base/70 font-light mb-12 max-w-2xl mx-auto">
           A curated selection of work across brand, digital, and experience design.
         </p>
+
+        <TestimonialCarousel />
 
         <PortfolioClient />
       </Container>

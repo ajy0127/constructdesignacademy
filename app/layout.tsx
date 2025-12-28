@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next';
 import Navigation from '../components/ui/Navigation';
 import Footer from '../components/ui/Footer';
 import GoogleAnalytics from '../components/analytics/GoogleAnalytics';
+import ScrollToTop from '../components/ui/ScrollToTop';
 
 const inter = Inter({ 
   subsets: ['latin'], 
@@ -107,6 +108,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfairDisplay.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-bg-primary text-text-base antialiased relative">
         <GoogleAnalytics />
+        <ScrollToTop />
         {/* Subtle background pattern */}
         <div 
           className="fixed inset-0 pointer-events-none opacity-[0.015]"

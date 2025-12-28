@@ -182,17 +182,6 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
-    id: 'luxury-fashion-ecommerce',
-    title: 'Luxury Fashion E-commerce',
-    year: 2026,
-    categories: ['E-commerce'],
-    thumbnailSrc: '/products/ecommerce-brand-thumb.jpg',
-    imageSrcs: [
-      '/products/ecommerce-brand-thumb.jpg',
-    ],
-    comingSoon: true,
-  },
-  {
     id: 'acerlo-app',
     title: 'Acerlo',
     year: 2026,
@@ -203,13 +192,20 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
     comingSoon: true,
   },
+  {
+    id: 'luxury-fashion-ecommerce',
+    title: 'Luxury Fashion E-commerce',
+    year: 2026,
+    categories: ['E-commerce'],
+    thumbnailSrc: '/products/ecommerce-brand-thumb.jpg',
+    imageSrcs: [
+      '/products/ecommerce-brand-thumb.jpg',
+    ],
+    comingSoon: true,
+  },
 ];
 
-export const portfolioCategories = [
-  'All',
-  ...Array.from(
-    new Set(portfolioProjects.flatMap((p) => p.categories))
-  ),
-] as const;
+// Simplified category groupings for filtering
+export const portfolioCategories = ['All', 'B2B', 'B2C', 'E-commerce'] as const;
 
 export type PortfolioCategoryFilter = (typeof portfolioCategories)[number];

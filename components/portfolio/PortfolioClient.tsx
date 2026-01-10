@@ -16,7 +16,7 @@ import PortfolioModal from './PortfolioModal';
 type ModalView = 'gallery' | 'prototype' | 'caseStudy';
 
 const PORTFOLIO_SESSION_KEY = 'portfolio_access_unlocked';
-const PORTFOLIO_TEMP_PASSWORD = 'Jaymes';
+const PORTFOLIO_TEMP_PASSWORD = 'Productpass1';
 
 export default function PortfolioClient() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategoryFilter>('All');
